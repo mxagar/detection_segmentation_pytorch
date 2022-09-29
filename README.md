@@ -2,7 +2,7 @@
 
 This repository collects examples and resources in which [*Object Detection*](https://en.wikipedia.org/wiki/Object_detection) and [*Semantic Segmentation*](https://en.wikipedia.org/wiki/Image_segmentation) are applied to images with [Pytorch](https://pytorch.org/).
 
-**Important notes**:
+:warning: **Important** :warning:
 
 - This is an on-going project; I will extend the content as far as I have time for it.
 - In some cases, I will use the code from other public tutorials/posts rightfully citing the source.
@@ -28,7 +28,7 @@ Table of contents:
     - [Dependencies](#dependencies)
   - [Object Detection: General Notes](#object-detection-general-notes)
   - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
-  - [List of Examples + Description](#list-of-examples--description)
+  - [List of Examples + Description Points](#list-of-examples--description-points)
   - [Improvements and Possible Extensions](#improvements-and-possible-extensions)
   - [Interesting Links](#interesting-links)
   - [Authorship](#authorship)
@@ -38,6 +38,7 @@ Table of contents:
 ### How to Use This
 
 TBD.
+
 ### Dependencies
 
 You should create a python environment (e.g., with [conda](https://docs.conda.io/en/latest/)) and install the dependencies listed in the [requirements.txt](requirements.txt) file of each example. If there is no such file in a folder example, the one in the root level should work.
@@ -59,42 +60,40 @@ TBD.
 
 TBD.
 
-## List of Examples + Description
+## List of Examples + Description Points
 
 - [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
+- [`02_yolo_v3_darknet`](02_yolo_v3_darknet)
 
 ## Improvements and Possible Extensions
 
-**Object Detection**
-
 - [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
+  - [ ] TBD.
+- [`02_yolo_v3_darknet`](02_yolo_v3_darknet)
   - [ ] TBD.
 
 ## Interesting Links
 
-Some sources I have used:
+Some **sources** I have used:
 
 - [TorchVision Object Detection Finetuning - Pytorch Tutorial](https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html)
 - [Segmentation Models: Python Library](https://github.com/qubvel/segmentation_models.pytorch)
 - [PyImageSearch: U-Net: Training Image Segmentation Models in PyTorch](https://pyimagesearch.com/2021/11/08/u-net-training-image-segmentation-models-in-pytorch/)
 - [Image Segmentation DeepLabV3 on iOS - Pytorch Tutorial](https://pytorch.org/tutorials/beginner/deeplabv3_on_ios.html)
 
-Related material:
+**My related notes**:
 
 - [My notes and code](https://github.com/mxagar/computer_vision_udacity) on the [Udacity Computer Vision Nanodegree](https://www.udacity.com/course/computer-vision-nanodegree--nd891).
 - [My notes and code](https://github.com/mxagar/deep_learning_udacity) on the [Udacity Deep Learning Nanodegree](https://www.udacity.com/course/deep-learning-nanodegree--nd101).
 
-Interesting paper links:
-
-- Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks; Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun. [Arxiv](https://arxiv.org/abs/1506.01497).
-- Mask R-CNN; Kaiming He, Georgia Gkioxari, Piotr Dollár, Ross Girshick. [Arxiv](https://arxiv.org/abs/1703.06870).
-
-Others:
+Other **resources and tutorials**:
 
 - [Deep Learning for Object Detection: A Comprehensive Review](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)
 - [A Faster Pytorch Implementation of Faster R-CNN](https://github.com/jwyang/faster-rcnn.pytorch)
 - [Train your own object detector with Faster-RCNN & PyTorch](https://johschmidt42.medium.com/train-your-own-object-detector-with-faster-rcnn-pytorch-8d3c759cfc70)
 - [Creating and training a U-Net model with PyTorch for 2D & 3D semantic segmentation: Dataset building](https://towardsdatascience.com/creating-and-training-a-u-net-model-with-pytorch-for-2d-3d-semantic-segmentation-dataset-fb1f7f80fe55)
+
+**Papers**: look in the folder [literature](literature/README.md)
 
 ## Authorship
 
