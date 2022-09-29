@@ -9,3 +9,5 @@ The only required file is the notebook [torchvision_finetuning_instance_segmenta
 - Installs additional packages.
 - Downloads the dataset, required util scripts, etc.
 - Explains what's done, as in the post.
+
+Additionally, the script [tv-training-code.py](tv-training-code.py) contains the key functions from the notebook that carry out the main tasks.
