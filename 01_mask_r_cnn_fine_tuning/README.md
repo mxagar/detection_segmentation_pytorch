@@ -6,8 +6,25 @@ In it, a pre-trained [Mask R-CNN](https://arxiv.org/abs/1703.06870) model is fin
 
 The only required file is the notebook [torchvision_finetuning_instance_segmentation.ipynb](torchvision_finetuning_instance_segmentation.ipynb); this notebook:
 
-- Installs additional packages.
+- Installs additional packages: `cython` and `cocoapi`.
 - Downloads the dataset, required util scripts, etc.
+  - `PennFudanPed`
+  - `coco_*.py`, `engine.py`, `transforms.py`, etc.
 - Explains what's done, as in the post.
 
 Additionally, the script [tv-training-code.py](tv-training-code.py) contains the key functions from the notebook that carry out the main tasks.
+
+:warning: **Important Notes**
+
+- I had issues running the notebook on my Macbook Pro M1 and on my Jetson Nano, so I replicated the environment in Google Colab. However, note that the training is extremely slow on machines without a proper CUDA.
+- I had to change the `engine.py` file: the decorator `@torch.no_grad()` is commented out and I use a context manager outside for `evaluate()`; additionally, I check `torch.cuda.is_available()` before anything related to CUDA.
+
+### Installation
+
+```bash
+conda create -n mask-rcnn python=3.7.14
+conda activate mask-rcnn
+conda install pytorch torchvision -c pytorch 
+conda install pip
+pip install -r requirements.txt
+```
