@@ -1,6 +1,12 @@
 # Beyond Image Classification: Object Detection and Semantic Segmentation with Pytorch
 
-This repository collects examples in which [*Object Detection*](https://en.wikipedia.org/wiki/Object_detection) and [*Semantic Segmentation*](https://en.wikipedia.org/wiki/Image_segmentation) are applied to images with [Pytorch](https://pytorch.org/).
+This repository collects examples and resources in which [*Object Detection*](https://en.wikipedia.org/wiki/Object_detection) and [*Semantic Segmentation*](https://en.wikipedia.org/wiki/Image_segmentation) are applied to images with [Pytorch](https://pytorch.org/).
+
+**Important notes**:
+
+- This is an on-going project; I will extend the content as far as I have time for it.
+- In some cases, I will use the code from other public tutorials/posts rightfully citing the source.
+- In addition to the examples, the links in the section [Interesting Links](#interesting-links) are very useful resources for those interested in the topic.
 
 Probably the most known application of Convolutional Neural Networks is *Image Classification*: an image is convoluted with several trained filters to output a vector of `N` values; each value is a float between `0` and `1` and it denotes the probability of the image containing one of the pre-defined `N` classes of objects.
 
@@ -20,8 +26,9 @@ Table of contents:
   - [Overview and File Structure](#overview-and-file-structure)
     - [How to Use This](#how-to-use-this)
     - [Dependencies](#dependencies)
-  - [Object Detection](#object-detection)
-  - [Semantic Segmentation](#semantic-segmentation)
+  - [Object Detection: General Notes](#object-detection-general-notes)
+  - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
+  - [List of Examples + Description](#list-of-examples--description)
   - [Improvements and Possible Extensions](#improvements-and-possible-extensions)
   - [Interesting Links](#interesting-links)
   - [Authorship](#authorship)
@@ -33,33 +40,35 @@ Table of contents:
 TBD.
 ### Dependencies
 
-You should create a python environment (e.g., with [conda](https://docs.conda.io/en/latest/)) and install the dependencies listed in the [requirements.txt](requirements.txt) file.
+You should create a python environment (e.g., with [conda](https://docs.conda.io/en/latest/)) and install the dependencies listed in the [requirements.txt](requirements.txt) file of each example. If there is no such file in a folder example, the one in the root level should work.
 
 A short summary of commands required to have all in place is the following:
 
 ```bash
-conda create -n faces python=3.6
-conda activate faces
+conda create -n det-seg python=3.6
+conda activate det-seg
 conda install pytorch torchvision -c pytorch 
 conda install pip
 pip install -r requirements.txt
 ```
 
-## Object Detection
+## Object Detection: General Notes
 
 TBD.
-## Semantic Segmentation
+## Semantic Segmentation: General Notes
 
 TBD.
+
+## List of Examples + Description
+
+- [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
+
 ## Improvements and Possible Extensions
 
 **Object Detection**
 
-- [ ] TBD.
-
-**Semantic Segmentation**
-
-- [ ] TBD.
+- [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
+  - [ ] TBD.
 
 ## Interesting Links
 
@@ -77,7 +86,15 @@ Related material:
 
 Interesting paper links:
 
-- TBD.
+- Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks; Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun. [Arxiv](https://arxiv.org/abs/1506.01497).
+- Mask R-CNN; Kaiming He, Georgia Gkioxari, Piotr Dollár, Ross Girshick. [Arxiv](https://arxiv.org/abs/1703.06870).
+
+Others:
+
+- [Deep Learning for Object Detection: A Comprehensive Review](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)
+- [A Faster Pytorch Implementation of Faster R-CNN](https://github.com/jwyang/faster-rcnn.pytorch)
+- [Train your own object detector with Faster-RCNN & PyTorch](https://johschmidt42.medium.com/train-your-own-object-detector-with-faster-rcnn-pytorch-8d3c759cfc70)
+- [Creating and training a U-Net model with PyTorch for 2D & 3D semantic segmentation: Dataset building](https://towardsdatascience.com/creating-and-training-a-u-net-model-with-pytorch-for-2d-3d-semantic-segmentation-dataset-fb1f7f80fe55)
 
 ## Authorship
 
