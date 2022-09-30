@@ -30,7 +30,7 @@ pip install -r requirements.txt
 jupyter notebook torchvision_finetuning_instance_segmentation.ipynb
 ```
 
-... or, optionally:
+... or, alternatively:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mxagar/detection_segmentation_pytorch/blob/main/01_mask_r_cnn_fine_tuning/torchvision_finetuning_instance_segmentation.ipynb)
 

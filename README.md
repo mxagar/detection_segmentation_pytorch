@@ -92,9 +92,9 @@ Region proposal networks work as follows:
 - `k` anchor boxes are applied on each window. These anchor boxes are pre-defined boxes with different aspect ratios.
 - For each `k` boxes in each window, the probability of it containing an object is measured. If it's higher than a threshold, the anchor box is suggested as a ROI.
 
-During training, the ground truth is given by the real bounding box: if the suggested ROI overlaps considerably with a true bounding box, the suggestion is correct.
-
-
+During training, the ground truth isen by the real bounding box: if the suggested ROI overlaps considerably with a true bounding box, the suggestion is correct.
+The 
+![Object Detection with Faster R-CNN](./assets/Object_Detection_Idea_FasterRCNN.png)
 
 
 ### YOLO: You Only Look Once
