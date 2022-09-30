@@ -149,6 +149,15 @@ Anchor boxes consider that objects of different aspect ratios can overlap in the
 
 The first part belongs to the first anchor box or object and the last to the second. Basically, we add channels to the original classification map.
 
+The final YOLO v3 architecture has the following properties:
+
+- The input size is 416 x 416 x 3
+- The output size is 52 x 52 x 255
+  - Grid: 52 x 52
+  - Channels: 255; these contain the bounding box and class vectors
+- There are 100+ layers!
+  - Most of the layers are convolutions: 3x3, 1x1; number of filters vary: 32 - 1024 and pooling is applied every 2-3 convolutions.
+  - There are shortcut and routing layers, too.
 
 ## Semantic Segmentation: General Notes
 
