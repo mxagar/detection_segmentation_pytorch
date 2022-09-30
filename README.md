@@ -34,6 +34,7 @@ As mentioned, this repository collects practical examples that target the last t
     - [Dependencies](#dependencies)
   - [Object Detection: General Notes](#object-detection-general-notes)
     - [Faster R-CNN](#faster-r-cnn)
+    - [Intersection Over Union: IOU](#intersection-over-union-iou)
     - [YOLO: You Only Look Once](#yolo-you-only-look-once)
   - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
   - [List of Examples + Description Points](#list-of-examples--description-points)
@@ -69,8 +70,10 @@ In this section, I provide some high level notes on the theory behind the object
 
 Object detection networks can use classification backbones to extract features, but at the end of the feature extractor, instead of mapping the activations to classes, they perform a more sophisticated tasks, with which they basically:
 
-- they regress Regions of Interest (ROI), i.e., bounding boxes, that likely contain an object
-- and they yield class probabilities for those bounding boxes.
+- regress Regions of Interest (ROI), i.e., bounding boxes, that likely contain an object
+- and yield class probabilities for those bounding boxes.
+
+A naive implementation could add two branches to the feature maps: one for regressing the `[x,y,w,h]` floats of the bounding box and another one for mapping the features to the class probabilities. However, that allows a unique object to be detected in the image; thus, more sophisticated architectures are needed, which nonetheless, are based on that double mapping principle.
 
 ### Faster R-CNN
 
@@ -92,20 +95,66 @@ Region proposal networks work as follows:
 - `k` anchor boxes are applied on each window. These anchor boxes are pre-defined boxes with different aspect ratios.
 - For each `k` boxes in each window, the probability of it containing an object is measured. If it's higher than a threshold, the anchor box is suggested as a ROI.
 
-During training, the ground truth isen by the real bounding box: if the suggested ROI overlaps considerably with a true bounding box, the suggestion is correct.
-The 
+During training, the ground truth is given by the real bounding box: if the suggested ROI overlaps considerably with a true bounding box, the suggestion is correct.
+
+The following image gives an overview of the major steps in Faster R-CNN:
+
 ![Object Detection with Faster R-CNN](./assets/Object_Detection_Idea_FasterRCNN.png)
 
+### Intersection Over Union: IOU
+
+The metric used in object detection to evaluate the quality of the bounding boxes is the **intersection over union** or **IOU** ratio, computed with the intersection and union areas of the predicted and ground truth bounding boxes. Ideally, the value should be 1.
+
+![Intersection ofver Union](./assets/IOU.png)
 
 ### YOLO: You Only Look Once
+
+Two important alternatives to Faster R-CNN are:
+
+- YOLO: You Only Look Once
+- SSD: Single Shot Detection
+
+YOLO works in realtime; it prioritizes fast object detection and it can be used in applications such like self-driving cars.
+
+YOLO achieves that speed with the the following properties:
+
+- We don't have a sliding window, but the image is tesselated in a grid and each cell is analyzed.
+- The regression and classification problems are united into a simultaneous regression.
+
+In other words, we predict for each cell `(i,j)` in the grid the following vector:
+
+`g_ij = [p_c, c_1, c_2, c_3, x, y, w, h]`, where
+
+- `p_c = [0,1]`: probability of the box of containing an object (*objectness*).
+- `c_1, c_2, c_3`: probabilities of the object being of class 1, 2, 3; the number of classes varies depending on the problem definition.
+- `x, y, w, h`: location and size of the bounding box.
+
+Only bounding box and class values of cells that have high `p_c` values are considered; additionally, during training `p_c = 1` if and only if the cell contains the center of the ground truth object.
+
+![YOLO](./assets/YOLO.g)
+
+This approach yields many bounding box candidates for the same object, which come from adjacent grid cells. In order to filter them, **Non-Maximal Supression** is used; that works with the following steps:
+
+1. Go through all cells and take the ones which have `p_c > nms_thres = 0.6` (or a value of choice).
+2. Take the cell with the largest `p_c`.
+3. Compute the IoUs of the other bounding boxes with respect to the one with the largest `p_c`.
+4. Remove all bounding boxes which have a high IoU value, e.g., `IoU >= iou_thres = 0.4`.
+5. Repeat from step 2 using the cells that are remaining.
+
+Note that in case two different objects overlap, this algorithm would not work, since the overlapping object would default to one. For those cases, **anchor boxes** are used.
+
+Anchor boxes consider that objects of different aspect ratios can overlap in the image (e.g., person and car); to deal with that, the length of the cell vector is multiplied by the number of allowed anchor boxes; if we have two anchor boxes:
+
+`g_ij = [p_c, c_1, c_2, c_3, x, y, w, h, p_c, c_1, c_2, c_3, x, y, w, h]`
+
+The first part belongs to the first anchor box or object and the last to the second. Basically, we add channels to the original classification map.
 
 
 ## Semantic Segmentation: General Notes
 
 In this section, I provide some high level notes on the theory behind the semantic segmentation networks; for more details, check the articles listed in the [literature](literature) folder.
 
-
-TBD.
+:construction: To be done...
 
 ## List of Examples + Description Points
 
@@ -154,6 +203,7 @@ Other **resources and tutorials**:
 - [Train your own object detector with Faster-RCNN & PyTorch](https://johschmidt42.medium.com/train-your-own-object-detector-with-faster-rcnn-pytorch-8d3c759cfc70)
 - [Creating and training a U-Net model with PyTorch for 2D & 3D semantic segmentation: Dataset building](https://towardsdatascience.com/creating-and-training-a-u-net-model-with-pytorch-for-2d-3d-semantic-segmentation-dataset-fb1f7f80fe55)
 - [A PyTorch Tutorial to Object Detection](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection)
+- [How to implement a YOLO (v3) object detector from scratch in PyTorch](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/)
 
 **Papers**: look in the folder [literature](literature/README.md).
 
