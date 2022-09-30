@@ -131,7 +131,7 @@ In other words, we predict for each cell `(i,j)` in the grid the following vecto
 
 Only bounding box and class values of cells that have high `p_c` values are considered; additionally, during training `p_c = 1` if and only if the cell contains the center of the ground truth object.
 
-![YOLO](./assets/YOLO.g)
+![YOLO](./assets/YOLO.png)
 
 This approach yields many bounding box candidates for the same object, which come from adjacent grid cells. In order to filter them, **Non-Maximal Supression** is used; that works with the following steps:
 
