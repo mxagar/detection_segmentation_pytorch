@@ -29,8 +29,7 @@ As mentioned, this repository collects practical examples that target the last t
 - [Beyond Image Classification: Object Detection and Semantic Segmentation with Pytorch](#beyond-image-classification-object-detection-and-semantic-segmentation-with-pytorch)
   - [Introduction](#introduction)
     - [Table of Contents](#table-of-contents)
-  - [Overview and File Structure](#overview-and-file-structure)
-    - [How to Use This](#how-to-use-this)
+  - [How to Use This](#how-to-use-this)
     - [Dependencies](#dependencies)
   - [Object Detection: General Notes](#object-detection-general-notes)
     - [Faster R-CNN](#faster-r-cnn)
@@ -42,9 +41,7 @@ As mentioned, this repository collects practical examples that target the last t
   - [Interesting Links](#interesting-links)
   - [Authorship](#authorship)
 
-## Overview and File Structure
-
-### How to Use This
+## How to Use This
 
 1. Go to the desired example folder from the section [List of Examples + Description Points](#list-of-examples--description-points). You should have brief instructions in each folder.
 2. If there is an `Open in Colab` button anywhere, you can use it :smile:.
