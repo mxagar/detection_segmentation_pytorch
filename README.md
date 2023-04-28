@@ -84,7 +84,7 @@ The **Faster R-CNN** network has the following steps:
 - For each ROI, ROI pooling is performed: non-uniform cells of pooling are applied to warp the ROIs to standard sizes
 - The last part of the network predicts the class of the ROI.
 
-The main difference between the R-CNN architecture lies on the ROI detection: less efficient networks project ROIs computed after applying classical algorithms, while the Faster R-CNN uses a Region Proposal Network.
+The main difference between the R-CNN architectures lies on the ROI detection: less efficient networks project ROIs computed after applying classical algorithms, while the Faster R-CNN uses a Region Proposal Network.
 
 Region proposal networks work as follows:
 
