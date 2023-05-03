@@ -210,6 +210,16 @@ Other **resources and tutorials**:
 - [Creating and training a U-Net model with PyTorch for 2D & 3D semantic segmentation: Dataset building](https://towardsdatascience.com/creating-and-training-a-u-net-model-with-pytorch-for-2d-3d-semantic-segmentation-dataset-fb1f7f80fe55)
 - [A PyTorch Tutorial to Object Detection](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Object-Detection)
 - [How to implement a YOLO (v3) object detector from scratch in PyTorch](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/)
+- [Faster-rcnn for multiclass object detection](https://www.kaggle.com/code/lonewolf45/faster-rcnn-for-multiclass-object-detection)
+- [A Faster Pytorch Implementation of Faster R-CNN](https://github.com/jwyang/faster-rcnn.pytorch#a-faster-pytorch-implementation-of-faster-r-cnn)
+- [(Part 1) Generating Anchor boxes for Yolo-like network for vehicle detection using KITTI dataset](https://vivek-yadav.medium.com/part-1-generating-anchor-boxes-for-yolo-like-network-for-vehicle-detection-using-kitti-dataset-b2fe033e5807)
+- [How to implement a YOLO (v3) object detector from scratch in PyTorch: Part 1](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/)
+- [YOLOv7 Custom Object Detection Course](https://nicolai-nielsen-s-school.teachable.com/p/yolov7-custom-object-detection-with-deployment)
+- [YOLOv7 Object Detection Paper Explanation & Inference](https://learnopencv.com/yolov7-object-detection-paper-explanation-and-inference/)
+- [Fine Tuning YOLOv7 on Custom Dataset](https://learnopencv.com/fine-tuning-yolov7-on-custom-dataset/)
+- [YOLOv5 – Custom Object Detection Training](https://learnopencv.com/custom-object-detection-training-using-yolov5/)
+- [YOLOv8 Object Tracking in Real-time with Webcam and OpenCV](https://www.youtube.com/watch?v=UYLp0-iOvFc&list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0&index=4)
+
 
 **Papers**: look in the folder [literature](literature/README.md).
 
