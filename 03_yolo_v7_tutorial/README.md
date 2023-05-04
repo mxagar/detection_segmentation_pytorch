@@ -15,6 +15,11 @@ Table of contents:
     - [Re-Parametrization Planning](#re-parametrization-planning)
     - [Auxiliary Head](#auxiliary-head)
   - [3. Custom Dataset](#3-custom-dataset)
+    - [Capturing a Custom Dataset with OpenCV](#capturing-a-custom-dataset-with-opencv)
+    - [Finding a Public Dataset](#finding-a-public-dataset)
+    - [Labeling on Roboflow](#labeling-on-roboflow)
+    - [Augmentation](#augmentation)
+    - [Exporting the Dataset](#exporting-the-dataset)
   - [4. Training](#4-training)
   - [5. Deployment](#5-deployment)
 
@@ -59,7 +64,7 @@ A concise explanation of **Object Detection** techniques is given in the [`READM
 - [Deep Learning for Object Detection: A Comprehensive Review](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)
 - [Paper - YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)
 
-Elements of the architecture:
+Main elements of the architecture:
 
 - Backbone: feature extractor; we get feature maps of different sizes, all of a lower dimensionality.
 - Feature Pyramid Network (FPN): we pass the feature maps to it; it has a pyramid-like structure, so features of different sizes are captured. The FPN seems to have routing / shortcuts.
@@ -70,6 +75,8 @@ Elements of the architecture:
   - Objectness loss: 1 value.
 
 ![YOLO v7 Architecture](./pics/yolo_v7_architecture.jpg)
+
+In the following th emost important 
 
 ### Efficient Layer Aggregation
 
@@ -83,19 +90,65 @@ This approach is intended to enhance the features learned by different feature m
 
 ### Model Scaling Techniques
 
+Model scaling is achieved by increasing/decreasng both the depth and the width of the network layers, i.e., modifzing the number of channels, among others. These the effect of:
 
+- Having models of different numbers of parameters, i.e., sizes
+- Having models of different accuracies and speeds, i.e., they can be better suited for specific applications (e.g., realtime or offline but with higher accuracy).
 
 ![YOLO v7 Architecture: Scaling](./pics/yolo_v7_architecture_3.jpg)
 
+YOLO uses concatenation-base models. These, also known as multi-scale feature fusion models, are neural networks that combine features extracted at different spatial scales to improve object detection performance.
+
+The authors propose a method for scaling concatenation-based models that involves increasing the number of channels in the network while maintaining a constant input resolution. This is intended to increase the expressive power of the network, allowing it to learn more complex and nuanced features that are better suited for object detection.
+
+They also suggest increasing the depth of the network and adjusting the number of feature fusion layers to optimize the trade-off between model complexity and performance.
+
+Overall, the idea of model scaling for concatenation-based models is to fine-tune the architecture of the network to achieve the best possible performance for the given task, taking into account factors such as computational efficiency and memory constraints.
+
 ### Re-Parametrization Planning
 
+Re-Parametrization Planning is used, which consists in a technique for optimizing neural network architectures to improve efficiency and reduce redundancy, while maintaining or improving performance on the target task.
+
+In traditional convolutional layers, each filter has a separate set of weights and biases for each input channel. This can lead to a large number of redundant parameters, particularly in deeper networks with many channels.
+
+The authors propose a new type of convolutional layer that uses shared weights and biases across multiple channels. Specifically, they use a factorized weight matrix, where the filter weights are decomposed into two smaller matrices, one for the input channels and one for the output channels. This reduces the number of parameters needed to represent the convolutional filters, while still allowing the network to learn rich and diverse features.
+
+The authors also introduce a method for dynamically adjusting the number of channels in the network based on the size of the input image. This allows the network to be more efficient when processing images of different sizes, without sacrificing accuracy.
+
+![YOLO v7 Architecture: Re-Parametrization Planning](./pics/yolo_v7_architecture_4.jpg)
 
 
 ### Auxiliary Head
 
-~~~~
+YOLO v7 has a multi-headed architecture; in multi-head networks there is a separate head for each object class. Each head consists of a set of convolutional layers that process the features extracted by the backbone of the network, and then output the predicted bounding boxes and class probabilities for objects of that class.
+
+In YOLOv7, the authors use a variant of this approach called "context-based multi-head," where the heads are organized according to the context of the object classes. This means that the heads for related object classes are grouped together, allowing them to share features and improve the accuracy of the predictions.
+
+Additionally, **auxiliary heads** are used during **training**: smaller and shallower sub-network that are trained to predict intermediate features of the input image. The idea behind the auxiliary head is to provide additional supervision to the network during training, which can help to prevent overfitting and improve generalization performance.
+
+During training, the loss function of the network is computed using both the predictions from the main head and the auxiliary head. The loss from the auxiliary head is weighted less than the loss from the main head, since the primary focus is still on predicting the bounding boxes and class probabilities.
+
+At inference time, the auxiliary head is discarded, and only the main head is used to predict the final object detections.
+
+![YOLO v7 Architecture: Auxiliary Head](./pics/yolo_v7_architecture_5.jpg)
+
 
 ## 3. Custom Dataset
+
+### Capturing a Custom Dataset with OpenCV
+
+```python
+
+```
+
+### Finding a Public Dataset
+
+
+### Labeling on Roboflow
+
+### Augmentation
+
+### Exporting the Dataset
 
 ## 4. Training
 
