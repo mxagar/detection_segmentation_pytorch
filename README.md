@@ -179,6 +179,11 @@ In this section, I provide some high level notes on the theory behind the semant
   - A custom wrapper for YOLO-v3 is provided: a Pytorch model is created, darknet weights read and loaded into the model.
   - Only inference is possible, not training.
   - The COCO classes can be used only.
+- [`03_yolo_v7_tutorial`](03_yolo_v7_tutorial)
+  - Object detection.
+  - Main sources: 
+    - [Nicolai Nielsen: YOLOv7 Custom Object Detection](https://nicolai-nielsen-s-school.teachable.com/courses)
+    - [Youtube: YOLO Object Detection Models, Nicolai Nielsen](https://www.youtube.com/playlist?list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0)
 
 ## Improvements and Possible Extensions
 
