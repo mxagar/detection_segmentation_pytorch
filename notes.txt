@@ -1,0 +1,34 @@
+Object Detection
+
+    Faster R-CNN: Region CNN
+    YOLO: You Only Look Once
+    SSD: Single Shot Detection
+    Mask R-CNN
+
+Interesting links
+
+    Course: YOLOv7 Custom Object Detection Course
+        https://nicolai-nielsen-s-school.teachable.com/p/yolov7-custom-object-detection-with-deployment
+    Tutorial: How to implement a YOLO (v3) object detector from scratch in PyTorch: Part 1
+        https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/
+    Medium: (Part 1) Generating Anchor boxes for Yolo-like network for vehicle detection using KITTI dataset.
+        https://vivek-yadav.medium.com/part-1-generating-anchor-boxes-for-yolo-like-network-for-vehicle-detection-using-kitti-dataset-b2fe033e5807
+    Github Repo: A Faster Pytorch Implementation of Faster R-CNN
+        https://github.com/jwyang/faster-rcnn.pytorch
+    Medium: Deep Learning for Object Detection: A Comprehensive Review
+        https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9
+    Kaggle Notebook: Faster-rcnn for multiclass object detection
+        https://www.kaggle.com/code/lonewolf45/faster-rcnn-for-multiclass-object-detection
+    Youtube: YOLOv8 Object Tracking in Real-time with Webcam and OpenCV
+        https://www.youtube.com/watch?v=UYLp0-iOvFc&list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0&index=3
+    Blog OpenCV: YOLOv5 – Custom Object Detection Training
+        https://learnopencv.com/custom-object-detection-training-using-yolov5/
+    Blog OpenCV: Fine Tuning YOLOv7 on Custom Dataset
+        https://learnopencv.com/fine-tuning-yolov7-on-custom-dataset/
+    Blog OpenCV: YOLOv7 Object Detection Paper Explanation & Inference
+        https://learnopencv.com/yolov7-object-detection-paper-explanation-and-inference/
+    Kaggle Dataset: 2018 Data Science Bowl - Find the nuclei in divergent images
+        https://www.kaggle.com/c/data-science-bowl-2018/overview
+    Github Repo: Roboflow Notebooks
+        https://github.com/roboflow/notebooks
+    
