@@ -2,3 +2,5 @@ yolov7
 data/captured
 data/sakis2.v2i.yolov7pytorch
 resized_image.png
+roboflow.key
+sakis2-2
