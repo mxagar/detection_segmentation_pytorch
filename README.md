@@ -35,6 +35,7 @@ As mentioned, this repository collects practical examples that target the last t
     - [Faster R-CNN](#faster-r-cnn)
     - [Intersection Over Union: IOU](#intersection-over-union-iou)
     - [YOLO: You Only Look Once](#yolo-you-only-look-once)
+    - [Metrics](#metrics)
   - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
   - [List of Examples + Description Points](#list-of-examples--description-points)
   - [Improvements and Possible Extensions](#improvements-and-possible-extensions)
@@ -156,6 +157,19 @@ The final YOLO v3 architecture has the following properties:
   - Most of the layers are convolutions: 3x3, 1x1; number of filters vary: 32 - 1024 and pooling is applied every 2-3 convolutions.
   - There are shortcut and routing layers, too.
 
+### Metrics
+
+Object Detection uses as metric the **mean average precision, mAP**: The AP is the area under the curve of the precision-recall diagram (varying the detection threshold) for one class; the mAP is the mean across all classes:
+
+- Precision: ratio of true positive detections to the total number of detection.
+- Recall is the ratio of true positive detections to the total number of ground-truth objects.
+
+The **Intersection over Union, IOU** metric is taken into account implicitly in the mAP, because we use a threshold IOU to denote whether a bounding box is a true/false positive:
+
+- A predicted bounding box is considered a true positive if its IoU with a ground-truth bounding box is above a certain threshold (usually 0.5 or 0.75).
+- If the IoU is below the threshold, the predicted bounding box is considered a false positive.
+- If there are multiple predicted bounding boxes for a single ground-truth object, only the one with the highest IoU is counted as a true positive.
+
 ## Semantic Segmentation: General Notes
 
 In this section, I provide some high level notes on the theory behind the semantic segmentation networks; for more details, check the articles listed in the [literature](literature) folder.
@@ -185,13 +199,21 @@ In this section, I provide some high level notes on the theory behind the semant
     - [Nicolai Nielsen: YOLOv7 Custom Object Detection](https://nicolai-nielsen-s-school.teachable.com/courses)
     - [Youtube: YOLO Object Detection Models, Nicolai Nielsen](https://www.youtube.com/playlist?list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0)
 
+- [`03_yolo_v7_tutorial`](./03_yolo_v7_tutorial)
+  - Object detection.
+  - YOLOv7 trial using the code from the original paper repository.
+  - A custom dataset can be generated/downloaded and trained.
+  - ...
+
 ## Improvements and Possible Extensions
 
 - [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
   - [ ] Isolate the detection model and use `FastRCNNPredictor` to fine-tune my own classes. This point is suggested in the notebook.
 - [`02_yolo_v3_darknet`](02_yolo_v3_darknet)
-  - [ ] Get a YOLO model in Pytorch that can be trained.
-  - [ ] Get a YOLO model which can be modified and trained for custom object classes.
+  - [x] Get a YOLO model in Pytorch that can be trained.
+  - [x] Get a YOLO model which can be modified and trained for custom object classes.
+- [`03_yolo_v7_tutorial`](./03_yolo_v7_tutorial)
+  - [ ] ...
 
 ## Interesting Links
 
