@@ -147,7 +147,7 @@ Anchor boxes consider that objects of different aspect ratios can overlap in the
 
 The first part belongs to the first anchor box or object and the last to the second. Basically, we add channels to the original classification map.
 
-The final YOLO v3 architecture has the following properties:
+The final **YOLO v3** architecture has the following properties:
 
 - The input size is 416 x 416 x 3
 - The output size is 52 x 52 x 255
@@ -156,6 +156,8 @@ The final YOLO v3 architecture has the following properties:
 - There are 100+ layers!
   - Most of the layers are convolutions: 3x3, 1x1; number of filters vary: 32 - 1024 and pooling is applied every 2-3 convolutions.
   - There are shortcut and routing layers, too.
+
+The examples contain also some other improved YOLO versions.
 
 ### Metrics
 
@@ -193,17 +195,21 @@ In this section, I provide some high level notes on the theory behind the semant
   - A custom wrapper for YOLO-v3 is provided: a Pytorch model is created, darknet weights read and loaded into the model.
   - Only inference is possible, not training.
   - The COCO classes can be used only.
+
 - [`03_yolo_v7_tutorial`](03_yolo_v7_tutorial)
   - Object detection.
+  - YOLOv7 trial using the code from the original paper repository.
   - Main sources: 
     - [Nicolai Nielsen: YOLOv7 Custom Object Detection](https://nicolai-nielsen-s-school.teachable.com/courses)
     - [Youtube: YOLO Object Detection Models, Nicolai Nielsen](https://www.youtube.com/playlist?list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0)
+    - [Original yolov7 implementation repository](https://github.com/WongKinYiu/yolov7)
+  - A custom dataset is generated with the webcam and uploaded to [Roboflow](https://roboflow.com).
+  - The dataset is labelled using Roboflow web UI.
+  - The dataset is downloaded to local Windows.
+  - YOLO v7 model is trained (fine-tuned) on Windows + eGPU NVIDIA RTX 3060 + Pytorch.
+  - The trained model is exported to ONNX.
+  - The model (both Pytorch and ONNX) is run for online inference with webcam.
 
-- [`03_yolo_v7_tutorial`](./03_yolo_v7_tutorial)
-  - Object detection.
-  - YOLOv7 trial using the code from the original paper repository.
-  - A custom dataset can be generated/downloaded and trained.
-  - ...
 
 ## Improvements and Possible Extensions
 
@@ -213,7 +219,9 @@ In this section, I provide some high level notes on the theory behind the semant
   - [x] Get a YOLO model in Pytorch that can be trained.
   - [x] Get a YOLO model which can be modified and trained for custom object classes.
 - [`03_yolo_v7_tutorial`](./03_yolo_v7_tutorial)
-  - [ ] ...
+  - [ ] Complement tutorial with notes from these articles: 
+    - [Fine Tuning YOLOv7 on Custom Dataset](https://learnopencv.com/fine-tuning-yolov7-on-custom-dataset/)
+    - [YOLOv7 Object Detection Paper Explanation & Inference](https://learnopencv.com/yolov7-object-detection-paper-explanation-and-inference/)
 
 ## Interesting Links
 
