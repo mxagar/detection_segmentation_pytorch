@@ -24,9 +24,24 @@ Table of contents:
     - [Labelling on Roboflow](#labelling-on-roboflow)
     - [Generate the Dataset: Preprocessing and Augmentation](#generate-the-dataset-preprocessing-and-augmentation)
     - [Exporting the Dataset](#exporting-the-dataset)
+    - [Roboflow Model Training](#roboflow-model-training)
   - [4. YOLO v7 Repository: Notes](#4-yolo-v7-repository-notes)
-  - [5. Training](#5-training)
-  - [6. Deployment](#6-deployment)
+  - [5. Application Notebook](#5-application-notebook)
+    - [1. Install Dependencies and Set Up Environment](#1-install-dependencies-and-set-up-environment)
+      - [GPU Testing](#gpu-testing)
+      - [YOLOv7 Repository + Roboflow](#yolov7-repository--roboflow)
+    - [2. Download Custom Dataset from Roboflow](#2-download-custom-dataset-from-roboflow)
+      - [Get the Dataset](#get-the-dataset)
+      - [Check the Dataset Structure](#check-the-dataset-structure)
+    - [3. Training](#3-training)
+      - [Get Pre-Trained Weights](#get-pre-trained-weights)
+      - [Train](#train)
+    - [4. Test Results](#4-test-results)
+    - [5. Export the Model](#5-export-the-model)
+    - [6. Deployment](#6-deployment)
+      - [Roboflow Static Deployment: API](#roboflow-static-deployment-api)
+      - [Pytorch Online Webcam Deployment](#pytorch-online-webcam-deployment)
+      - [ONNX Deployment](#onnx-deployment)
 
 ## 1. Introduction
 
@@ -74,7 +89,7 @@ python -m pip install torch torchvision torchaudio
 python -m pip list --format=freeze > requirements.txt
 ```
 
-In case of any runtime errors, check the torch-torchvision compatibility table: [](https://github.com/pytorch/vision#installation).
+In case of any runtime errors, check the torch-torchvision compatibility table: [Installation](https://github.com/pytorch/vision#installation).
 
 ## 2. YOLOv7 Architecture
 
@@ -97,7 +112,7 @@ Main elements of the architecture:
 
 ![YOLO v7 Architecture](./pics/yolo_v7_architecture.jpg)
 
-In the following th emost important 
+In the following, the most important architectural properties/elements are discussed.
 
 ### Efficient Layer Aggregation
 
@@ -138,7 +153,6 @@ The authors also introduce a method for dynamically adjusting the number of chan
 
 ![YOLO v7 Architecture: Re-Parametrization Planning](./pics/yolo_v7_architecture_4.jpg)
 
-
 ### Auxiliary Head
 
 YOLO v7 has a multi-headed architecture; in multi-head networks there is a separate head for each object class. Each head consists of a set of convolutional layers that process the features extracted by the backbone of the network, and then output the predicted bounding boxes and class probabilities for objects of that class.
@@ -154,6 +168,8 @@ At inference time, the auxiliary head is discarded, and only the main head is us
 ![YOLO v7 Architecture: Auxiliary Head](./pics/yolo_v7_architecture_5.jpg)
 
 ## 3. Getting a Custom Dataset
+
+This tutorial uses [Roboflow](https://roboflow.com) to generate a custom dataset; however, any labeler could be used if the required dataset format is followed; more on the dataset format in the application notebook (see section [5. Application Notebook](#5-application-notebook)).
 
 ### Capturing a Custom Dataset with OpenCV
 
@@ -296,6 +312,16 @@ project = rf.workspace("mikel-sagardia-tknfd").project("basic-object-detection-q
 dataset = project.version(1).download("yolov7")
 ```
 
+### Roboflow Model Training
+
+Roboflow trains automatically a model that best fits to the dataset we have uploaded and labelled. Later on, we can access it via the Roboflow API as follows:
+
+```python
+model = project.version(1).model
+```
+
+The notebook [`YOLOv7Application.ipynb`](./lab/YOLOv7Application.ipynb) shows how to use it.
+
 ## 4. YOLO v7 Repository: Notes
 
 The original YOLO v7 paper is implemented in the following repository:
@@ -322,11 +348,372 @@ There are also many auxiliary scripts and tools for anything:
 
 It seems that they use the Danknet configuration files, which are parsed and used to build the YOLO model with PyTorch.
 
-## 5. Training
+## 5. Application Notebook
 
-In the original repository, the authors explain how to use their scripts for training and inference.
+In the original repository, the authors explain how to use their scripts for training and inference. The application notebooks in this tutorial build around the guidelines provided in that original repository.
 
+The notebook [`Setup.ipynb`](./lab/Setup.ipynb) shows how to inspect our GPUs.
 
+The notebook [`YOLOv7Application.ipynb`](./lab/YOLOv7Application.ipynb) contains the entire YOLO training and testing application; additionally, for deployment, these files can be used:
 
-## 6. Deployment
+- [`detect_roboflow.py`](./lab/detect_roboflow.py)
+- [`detect_pytorch_webcam_opencv.py`](./lab/yolov7/detect_pytorch_webcam_opencv.py)
+- [`detect_onnx_webcam_opencv.py`](./lab/detect_onnx_webcam_opencv.py)
 
+In the following, the contents from [`YOLOv7Application.ipynb`](./lab/YOLOv7Application.ipynb) are pasted; it is assumed, we are running on a Windows system with a custom conda environment installed as explained in the [Introduction](#1-introduction).
+
+### 1. Install Dependencies and Set Up Environment
+
+See the [Introduction](#1-introduction).
+
+#### GPU Testing
+
+I run the notebook on a Windows with an exteral GPU: NVIDIA RTX 3036.
+
+```python
+# Check GPUs
+!nvidia-smi
+
+# Check that the GPU can be connected/accessed correctly
+import os
+import torch
+import torchvision
+
+# If you are running this notebook locally
+# set environment variable with possible device ids
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+print(os.environ["CUDA_VISIBLE_DEVICES"])
+# Set device: 0 or 1
+# NOTE: indices are not necessarily the ones shown by nvidia-smi
+# We need to try them with the cell below
+torch.cuda.set_device("cuda:0")
+
+# Check that the selected device is the desired one
+print("Torch version?", torch.__version__)
+print("Torchvision version?", torchvision.__version__)
+print("Is cuda available?", torch.cuda.is_available())
+print("Is cuDNN version:", torch.backends.cudnn.version())
+print("cuDNN enabled? ", torch.backends.cudnn.enabled)
+print("Device count?", torch.cuda.device_count())
+print("Current device?", torch.cuda.current_device())
+print("Device name? ", torch.cuda.get_device_name(torch.cuda.current_device()))
+
+x = torch.rand(5, 3)
+print(x)
+# Torch version? 1.13.0+cu117
+# Torchvision version? 0.14.0+cu117
+# Is cuda available? True
+# Is cuDNN version: 8500
+# cuDNN enabled?  True
+# Device count? 2
+# Current device? 0
+# Device name?  NVIDIA GeForce RTX 3060
+# tensor([[0.6014, 0.5259, 0.4306],
+#         [0.8409, 0.8252, 0.6665],
+#         [0.6248, 0.7593, 0.3523],
+#         [0.7337, 0.7629, 0.9790],
+#         [0.7688, 0.3467, 0.4424]])
+```
+
+#### YOLOv7 Repository + Roboflow
+
+```python
+# Download/clone YOLOv7 repository and install its (additional) requirements
+!git clone https://github.com/WongKinYiu/yolov7
+%cd yolov7
+!pip install -r requirements.txt
+
+# Additional requirements
+!pip install roboflow
+```
+
+### 2. Download Custom Dataset from Roboflow
+
+```python
+# Note we are inside the YOLO repo folder
+# We dowload our ROboflow dataset there
+%pwd
+# 'C:\\Users\\Mikel\\git_repositories\\detection_segmentation_pytorch\\03_yolo_v7_tutorial\\lab\\yolov7'
+```
+
+#### Get the Dataset
+
+```python
+# Get API key:
+# Projects > Settings > Roboflow API: Private API Key, Show
+# Do not publish this key
+# Alternatively, persist in local file, don't commit,
+# and load from file
+with open('../roboflow.key', 'r') as file:
+    api_key = file.read().strip()
+
+from roboflow import Roboflow
+rf = Roboflow(api_key=api_key)
+project = rf.workspace("mikel-sagardia-tknfd").project("basic-object-detection-qkmda")
+dataset = project.version(1).download("yolov7")
+```
+
+#### Check the Dataset Structure
+
+The Roboflow `dataset` object contains several information on the dataset. We will pass the `dataset.location/data.yaml` file to the `train.py` scrip, which contains the following:
+
+```yaml
+names:
+- ball
+- cup
+- lotion
+nc: 3
+roboflow:
+  license: CC BY 4.0
+  project: basic-object-detection-qkmda
+  url: https://universe.roboflow.com/mikel-sagardia-tknfd/basic-object-detection-qkmda/dataset/1
+  version: 1
+  workspace: mikel-sagardia-tknfd
+test: ../test/images
+train: Basic-Object-Detection-1/train/images
+val: Basic-Object-Detection-1/valid/images
+```
+
+Apparently, the `roboflow` key is not that important, but the rest of the keys are: `names`, `nc` (number of classes), `test`, `train`, `val`; thus, we can create a similar dataset strucure with another tool than Roboflow. In particular, the image split folder contain:
+
+- unique image names for image files, e.g.,: `img_xxx.jpg`
+- a folder `labels` with a TXT for each unique image: `img_xxx.txt`
+
+The `img_xxx.txt` files contain a list of bounding boxes in the image:
+
+```
+2 0.56015625 0.4421875 0.140625 0.26875
+1 0.5234375 0.76875 0.340625 0.4625
+0 0.8421875 0.60625 0.2296875 0.28125
+```
+
+The format is the following (coordinates scaled to the image size):
+
+```
+class_id x_center, y_center, width, height
+```
+
+Thus, the dataset structure, is the following:
+
+```
+dataset/
+├── test/
+│   ├── images/
+│   │   └── img_XX1.jpg
+│   ├── blabels/
+│        └── img_XX1.txt
+├── train/
+└── val/
+```
+
+**BUT**, in another example shown in this [blog post by LearnOpenCV](https://learnopencv.com/fine-tuning-yolov7-on-custom-dataset/), the dataset structure seems to be different:
+
+```
+dataset/
+├── images
+│   ├── test/
+│   │   └── img_XX1.jpg
+│   ├── train/
+│   └── valid/
+└── labels
+    ├── test/
+    │   └── img_XX1.txt
+    ├── train/
+    └── valid/
+```
+
+### 3. Training
+
+#### Get Pre-Trained Weights
+
+```python
+# Note we are still in the YOLO repo folder
+# We downloaded the pre-trained weights there
+%pwd
+# 'C:\\Users\\Mikel\\git_repositories\\detection_segmentation_pytorch\\03_yolo_v7_tutorial\\lab\\yolov7'
+
+# Download COCO starting checkpoint f the YOLO model to fine tune
+# We are going to upload these weights to fine tune with the training script
+!wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7_training.pt
+```
+
+#### Train
+
+```python
+import os
+import sys
+# This variable switches off a warning of OpenMP
+if sys.platform == "win32":
+    os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
+# TRAINING SCRIPT
+# NOTES:
+# - On Windows, unfortunately we don't have the realtime output
+#     Possible fix: https://discourse.jupyter.org/t/how-to-show-the-result-of-shell-instantly/8947/10
+# - Before running, we need to log in to wandb
+#     >> wandb login
+# - The fine-tuned model will be saved by default to
+#     runs/train/expXX/weights/best.pt
+# - The training metrics and parameters/config are in
+#     runs/train/expXX
+# - Check all the possible arguments of train.py!
+# - We get a wandb experiment tracking report link, check it!
+!python train.py --batch 16 \
+                 --workers 8 \
+                 --epochs 500 \
+                 --data {dataset.location}/data.yaml \
+                 --weights 'yolov7_training.pt' \
+                 --img 640 640 \
+                 --device 0 \
+                 --cfg cfg/training/yolov7.yaml
+```
+
+### 4. Test Results
+
+```python
+# DETECT SCRIPT
+# Notes:
+# - We are passing the dataset test folder
+# - Use the desired trained model path, e.g.
+#     runs/train/expXX/weights/best.pt
+# - The detected images & labels will be saved by default to
+#     runs/detect/expXX/
+# - Check all possible arguments of detect.py!
+!python detect.py --weights runs/train/exp14/weights/best.pt \
+                  --conf 0.4 \
+                  --img-size 640 \
+                  --source {dataset.location}/test/images \
+                  --view-img \
+                  --save-txt \
+                  --save-conf
+
+# Display inference on ALL test images
+import glob
+from IPython.display import Image, display
+
+i = 0
+limit = 10 # max images to print
+# Note: use the path where the test images were saved!
+for imageName in glob.glob('runs/detect/exp10/*.jpg'): # assuming JPG
+    if i < limit:
+        display(Image(filename=imageName))
+        print("\n")
+    i = i + 1
+```
+
+### 5. Export the Model
+
+If we export the model (currently a Pytorch model) to the standard [ONNX](https://onnx.ai/), we can use it to perform live inference with OpenCV. To that end, we need to install some additional packages.
+
+```python
+!pip install --upgrade setuptools pip --user
+!pip install protobuf<4.21.3
+!pip install onnx>=1.9.0
+!pip install onnxruntime
+!pip install onnxruntime-gpu
+!pip install onnx-simplifier>=0.3.6 --user
+
+# Select the model exp version we'd like to export to ONNX
+# The ONNX model is exported to the same folder as the file best.onnx
+!python export.py --weights runs/train/exp14/weights/best.pt \
+                  --grid \
+                  --end2end \
+                  --simplify \
+                  --topk-all 100 \
+                  --iou-thres 0.45 \
+                  --conf-thres 0.2 \
+                  --img-size 640 640 \
+                  --max-wh 640
+# For onnxruntime, you need to specify this last value as an integer,
+# when it is 0 it means agnostic NMS, otherwise it is non-agnostic NMS
+```
+
+### 6. Deployment
+
+Files we need:
+
+- If we want to deploy using the model trained on **Roboflow** (i.e., remotely using the Roboflow API), we just need to access the Roboflow interface, without downloading any model.
+- If we want to deploy the **Pytorch** model (locally) we need `.../best.pt`
+- If we want to deploy the **ONNX** model (e.g., on locally, OpenCV DNN) we need `.../best.onnx`
+
+#### Roboflow Static Deployment: API
+
+The following code snippet is from [`detect_roboflow.py`](detect_roboflow.py). In it, we basically connect to our Roboflow project model and use the API to perform an inference on an image.
+
+Additionally, although it is not implemented here, we can perform **active learning**:
+
+- We track our inferences: we check the values of the confidences.
+- If a predicted confidence is inside a predefined range (e.g., very low, high, etc.), we upload the image to the project dataset: `project.upload()`.
+- Then, in the Roboflow web UI, we can label the uploaded images.
+- That way, our model becomes better.
+
+More on active learning: [Implementing Active Learning](https://help.roboflow.com/guides/implementing-active-learning).
+
+```python
+%cd ..
+%pwd
+# 'C:\\Users\\Mikel\\git_repositories\\detection_segmentation_pytorch\\03_yolo_v7_tutorial\\lab'
+
+from roboflow import Roboflow
+
+# Get API key:
+# Projects > Settings > Roboflow API: Private API Key, Show
+# Do not publish this key
+# Alternatively, persist in local file, don't commit,
+# and load from file
+with open('roboflow.key', 'r') as file:
+    api_key = file.read().strip()
+
+# Download model
+rf = Roboflow(api_key=api_key)
+project = rf.workspace("mikel-sagardia-tknfd").project("basic-object-detection-qkmda")
+# Check in the Roboflow web UI rge model version we'd like
+# This is a Roboflow model object, which in reality points to the Roboflow API
+model = project.version(1).model
+
+# Infer on a local image
+img_url = "yolov7/Basic-Object-Detection-1/test/images/img9_png.rf.c3bea63eb9645df2c0d196d74b1550d5.jpg"
+print(model.predict(img_url, confidence=40, overlap=30).json())
+# {'predictions': [{'x': 122.5, 'y': 499.5, 'width': 201.0, 'height': 255.0, 'confidence': 0.902337908744812, 'class': 'ball', 'image_path': 'yolov7/Basic-Object-Detection-1/test/images/img9_png.rf.c3bea63eb9645df2c0d196d74b1550d5.jpg', 'prediction_type': 'ObjectDetectionModel'}, {'x': 379.0, 'y': 361.5, 'width': 140.0, 'height': 203.0, 'confidence': 0.8436849117279053, 'class': 'lotion', 'image_path': 'yolov7/Basic-Object-Detection-1/test/images/img9_png.rf.c3bea63eb9645df2c0d196d74b1550d5.jpg', 'prediction_type': 'ObjectDetectionModel'}, {'x': 119.5, 'y': 256.0, 'width': 179.0, 'height': 282.0, 'confidence': 0.7519652843475342, 'class': 'cup', 'image_path': 'yolov7/Basic-Object-Detection-1/test/images/img9_png.rf.c3bea63eb9645df2c0d196d74b1550d5.jpg', 'prediction_type': 'ObjectDetectionModel'}], 'image': {'width': '640', 'height': '640'}}
+
+# Visualize/save the prediction
+model.predict(img_url, confidence=40, overlap=30).save("test_prediction.jpg")
+
+# Infer on an image hosted elsewhere
+# print(model.predict("URL_OF_YOUR_IMAGE", hosted=True, confidence=40, overlap=30).json())
+
+# This is a Roboflow model object, which in reality points to the Roboflow API
+print(model)
+# {
+#   "id": "basic-object-detection-qkmda/1",
+#   "name": "Basic Object Detection",
+#   "version": "1",
+#   "classes": null,
+#   "overlap": 30,
+#   "confidence": 40,
+#   "stroke": 1,
+#   "labels": false,
+#   "format": "json",
+#   "base_url": "https://detect.roboflow.com/"
+# }
+```
+
+#### Pytorch Online Webcam Deployment
+
+The custom-made file [`yolov7/detect_pytorch_webcam_opencv.py`](yolov7/detect_pytorch_webcam_opencv.py) is a modified version of the original [`detect.py`](yolov7/detect.py) which enables online webcam inference.
+
+The file uses the `best.pt` we want; we access webcam images and show inferences using OpenCV.
+
+I was able to run this script using the NVIDIA eGPU.
+
+**WARNING**: the code needs to cleaning up, refactoring, etc. Notice the different hard-coded parameters.
+
+#### ONNX Deployment
+
+The custom file [`detect_onnx_webcam_opencv.py`](detect_onnx_webcam_opencv.py) is a modified version of the original [`detect.py`](yolov7/detect.py) which enables online webcam inference using the exported ONNX model.
+
+The file uses the `best.onnx` we want; we access webcam images and show inferences using OpenCV, and the inference itself is done with OpenCV, too, leveraging the DNN module.
+
+Unfortunately, I was able to run this script only with the CPU option, which results in a much slower inference (1 FPS). I think that the GPU issue is related to some ONNX dependency/version incompatibility: [CUDAExecutionProvider Not Available](https://github.com/microsoft/onnxruntime/issues/7748).
+
+**WARNING**: the code needs to cleaning up, refactoring, etc. Notice the different hard-coded parameters.
