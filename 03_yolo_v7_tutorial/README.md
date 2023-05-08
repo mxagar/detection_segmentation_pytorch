@@ -1,9 +1,10 @@
 # Custom Object Detection with YOLO v7
 
-I made these notes following these courses/tutorials by Nicolai Nielsen:
+I made these notes following these courses/tutorials:
 
 - [Nicolai Nielsen: YOLOv7 Custom Object Detection](https://nicolai-nielsen-s-school.teachable.com/courses)
 - [Youtube: YOLO Object Detection Models, Nicolai Nielsen](https://www.youtube.com/playlist?list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0)
+- [Original yolov7 implementation repository](https://github.com/WongKinYiu/yolov7)
 - [Fine Tuning YOLOv7 on Custom Dataset](https://learnopencv.com/fine-tuning-yolov7-on-custom-dataset/)
 - [YOLOv7 Object Detection Paper Explanation & Inference](https://learnopencv.com/yolov7-object-detection-paper-explanation-and-inference/)
 
