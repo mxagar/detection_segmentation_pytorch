@@ -31,4 +31,42 @@ Interesting links
         https://www.kaggle.com/c/data-science-bowl-2018/overview
     Github Repo: Roboflow Notebooks
         https://github.com/roboflow/notebooks
-    
+
+PyImageSearch
+
+    Page 2: PyTorch 101: PyTorch object detection with pre-trained networks
+        https://pyimagesearch.mykajabi.com/products/pyimagesearch-university-full-access-plan/categories/2147970987/posts/2149217441
+
+    Page 3: PyTorch 103: Training an object detector from scratch in PyTorch
+        https://pyimagesearch.mykajabi.com/products/pyimagesearch-university-full-access-plan/categories/2148163514/posts/2149904936
+
+    Page 3: PyTorch 103: U-Net: Training Image Segmentation Models in PyTorch
+        https://pyimagesearch.mykajabi.com/products/pyimagesearch-university-full-access-plan/categories/2148163514/posts/2149904937
+
+    Page 3: Object Detection 101: Deep Learning Object Detectors with OpenCV
+        https://pyimagesearch.mykajabi.com/products/pyimagesearch-university-full-access-plan/categories/4691645/posts/15765017
+
+    Page 3: Object Detection 101: Object Detection 101: Deep Learning Object Detectors with OpenCV
+        https://pyimagesearch.mykajabi.com/products/pyimagesearch-university-full-access-plan/categories/4691645/posts/15765021
+
+    Page 3: Object Detection 201: Fundamentals of Deep Learning Object Detection
+
+        - Turning Any Deep Learning Image Classifier into an Object Detector
+        - Selective Search for Object Detection
+        - Region Proposal Object Detection
+        - Training Your Own R-CNN Object Detector
+
+    Page 3: Object Detection 202: Bounding Box Regression 
+
+        - Bounding Box Regression
+        - Multi-class Bounding Box Regression
+
+    Page 4: Object Detection 301: The YOLO Object Detector
+        
+        - Introduction to the YOLO Family
+        - Understanding a Real-Time Object Detection Network: You Only Look Once (YOLOv1)
+        - A Better, Faster, and Stronger Object Detector (YOLOv2)
+        - Mean Average Precision (mAP) Using the COCO Evaluator
+        - An Incremental Improvement with Darknet-53 and Multi-Scale Predictions (YOLOv3)
+        - Achieving Optimal Speed and Accuracy in Object Detection (YOLOv4)
+        - Training the YOLOv5 Object Detector on a Custom Dataset
