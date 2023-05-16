@@ -15,7 +15,7 @@ The code performs object detection with 3 models pre-trained with COCO:
 2. Faster R-CNN with a MobileNet v3 backbone (faster, but less accurate)
 3. RetinaNet with a ResNet50 backbone (good balance between speed and accuracy)
 
-We can pass any image to it **of any size** and if there are COCO objects on it, rectangles will be drawn on them. We have two implementations in scripts:
+We can pass any image to it **of any size** and if there are COCO objects in it, they will be detected and a rectangle will be drawn for each of them; note that we can have several objects per image! We have two implementations in scripts:
 
 - Static images can be passed: [`detect_image.py`](./01_pretrained/pytorch-object-detection/detect_image.py); this is equivalent to the notebook code.
 - A video stream can be passed and the objects are detected in real time: [`detect_realtime.py`](./01_pretrained/pytorch-object-detection/detect_realtime.py); this is a modification of the previous file to work with video streams. The speed is not great (approximately 2.42 FPS on CPU), but is works!
@@ -81,10 +81,18 @@ My notes are in the comments of the notebook: [01_pretrained/pytorch_object_dete
 
 ## Training an object detector from scratch in PyTorch
 
+This section is implemented in [`02_trained/`](./02_trained/); the notebook [`object_detector_in_pytorch.ipynb`](./02_trained/object_detector_in_pytorch.ipynb) contains the implementation.
+
 Material:
 
-- [Google Colab]()
-- [Code]()
-- [Blog post]()
+- [Google Colab](https://colab.research.google.com/drive/1y4zjPK8AsVO7i-wziO9ZSIkrPGbOAS71?usp=sharing)
+- [Code](https://pyimagesearch-code-downloads.s3-us-west-2.amazonaws.com/object-detector-in-pytorch/object-detector-in-pytorch.zip)
+- [Blog post](https://pyimagesearch.com/2021/11/01/training-an-object-detector-from-scratch-in-pytorch/?_ga=2.72087509.791523268.1684131076-844635163.1684131075)We have only one object in an image; that's a 
 
+The architecture of the implemented model is the following:
 
+- The pre-trained ResNet50 network is used as backbone, with weights frozen.
+- To the backbone, we attach two networks in parallel: one for regressing the bounding boxes, one for the classification labels.
+- We assume we have only one object in an image; that's an important limitation, but the motivation of the network is educational; the model is defined and trained from-scratch using pre-trained weights of the backbone.
+
+![Object Detection Network Architecture](./pics/obj_det_final.gif)
