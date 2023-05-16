@@ -210,6 +210,25 @@ In this section, I provide some high level notes on the theory behind the semant
   - The trained model is exported to ONNX.
   - The model (both Pytorch and ONNX) is run for online inference with webcam.
 
+- [`04_basic_object_detection_pyimagesearch`](04_basic_object_detection_pyimagesearch)
+  - [`01_pretrained`](./04_basic_object_detection_pyimagesearch/01_pretrained/)
+    - [Blog post](https://pyimagesearch.com/2021/08/02/pytorch-object-detection-with-pre-trained-networks/?_ga=2.9215987.791523268.1684131076-844635163.1684131075)
+    - We can pass any image to it **of any size** and if there are COCO objects in it, they will be detected and a rectangle will be drawn for each of them.
+    - We can have several objects per image.
+    - Apart from the notebook, we have two implementations in scripts:
+      - Static images can be passed: [`detect_image.py`](./01_pretrained/pytorch-object-detection/detect_image.py); this is equivalent to the notebook code.
+      - A video stream can be passed and the objects are detected in real time: [`detect_realtime.py`](./01_pretrained/pytorch-object-detection/detect_realtime.py); this is a modification of the previous file to work with video streams. The speed is not great (approximately 2.42 FPS on CPU), but is works!
+  - [`02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/)
+    - [Blog post](https://pyimagesearch.com/2021/11/01/training-an-object-detector-from-scratch-in-pytorch/?_ga=2.72087509.791523268.1684131076-844635163.1684131075)
+    - The pre-trained ResNet50 network is used as backbone, with weights frozen.
+    - To the backbone, we attach two networks in parallel: one for regressing the bounding boxes, one for the classification labels.
+    - We assume we have only one object in an image; that's an important limitation, but the motivation of the network is educational; the model is defined and trained from-scratch using pre-trained weights of the backbone.
+    - Overall I thinks it's a nice example to see how to implement things end-to-end, but we need to be aware of the **limitations**:
+      - We have 3 custom objects, but:
+        - The annotations are provided already.
+        - The objects are quite similar to some COCO/ImageNet classes, nothing really weird: airplane, face, motorcycle.
+      - A custom data loader is implemented to deal with the images and the annotations; the loader could be improved by openening images only when needed.
+      - Only one object is detected in an image.
 
 ## Improvements and Possible Extensions
 
