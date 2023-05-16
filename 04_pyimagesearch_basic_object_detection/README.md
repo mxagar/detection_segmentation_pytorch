@@ -72,7 +72,7 @@ cd pytorch-object-detection
 python detect_image.py -i images/example_01.jpg
 python detect_image.py --model frcnn-resnet --image images/example_06.jpg --labels coco_classes.pickle
 
-# Option 3: Open and run the jupyter notebook
+# Option 2: Open and run the jupyter notebook
 # Same code as in detect_image.py + MY NOTES
 jupyter notebook pytorch_object_detection.ipynb
 ```
@@ -94,5 +94,84 @@ The architecture of the implemented model is the following:
 - The pre-trained ResNet50 network is used as backbone, with weights frozen.
 - To the backbone, we attach two networks in parallel: one for regressing the bounding boxes, one for the classification labels.
 - We assume we have only one object in an image; that's an important limitation, but the motivation of the network is educational; the model is defined and trained from-scratch using pre-trained weights of the backbone.
+- Overall I thinks it's a nice example to see how to implement things end-to-end, but we need to be aware of the **limitations**:
+  - We have 3 custom objects, but:
+    - The annotations are provided already.
+    - The objects are quite similar to some COCO/ImageNet classes, nothing really weird: airplane, face, motorcycle.
+  - A custom data loader is implemented to deal with the images and the annotations; the loader could be improved by openening images only when needed.
+  - Only one object is detected in an image.
 
 ![Object Detection Network Architecture](./pics/obj_det_final.gif)
+
+Dependecies:
+
+```bash
+# Create an environment
+conda env create -f conda_ds.yaml
+conda activate ds
+
+# Otherwise, if we are using any other standard environment
+# we can simply install these
+pip install torch torchvision
+pip install opencv-contrib-python
+```
+
+Project structure:
+
+```
+.
+|-- dataset
+|   |-- annotations
+|   |   |-- airplane.csv
+|   |   |-- face.csv
+|   |   `-- motorcycle.csv
+|   `-- images
+|       |-- airplane
+|       |   |-- image_0001.jpg
+|       |   |-- ...
+|       |   `-- image_0800.jpg
+|       |-- face
+|       |   |-- image_0001.jpg
+|       |   |-- ...
+|       |   `-- image_0435.jpg
+|       `-- motorcycle
+|           |-- image_0001.jpg
+|           |-- ...
+|           `-- image_0798.jpg
+|-- dataset.zip
+|-- output
+|   |-- detector.pth
+|   |-- le.pickle
+|   |-- plots
+|   |   `-- training.png
+|   `-- test_paths.txt
+|-- predict.py
+|-- pyimagesearch
+|   |-- __init__.py
+|   |-- bbox_regressor.py
+|   |-- config.py
+|   `-- custom_tensor_dataset.py
+|-- train.py
+```
+
+To run the project:
+
+```bash
+# Get package/code
+conda activate ds
+cd 02_trained
+wget https://pyimagesearch-code-downloads.s3-us-west-2.amazonaws.com/object-detector-in-pytorch/object-detector-in-pytorch.zip
+unzip -qq object-detector-in-pytorch.zip
+cd object-detector-in-pytorch
+unzip -qq dataset.zip
+
+# Option 1: Run ready scripts
+python train.py
+python predict.py --input dataset/images/face/image_0131.jpg
+
+# Option 2: Open and run the jupyter notebook
+# Same code as in the scripts, but organized in modules + MY NOTES
+jupyter notebook object_detector_in_pytorch.ipynb
+```
+
+My notes are in the comments of the notebook: [02_trained/object_detector_in_pytorch.ipynb](./02_trained/object_detector_in_pytorch.ipynb).
