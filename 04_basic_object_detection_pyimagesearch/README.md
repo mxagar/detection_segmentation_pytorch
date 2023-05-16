@@ -87,7 +87,7 @@ Material:
 
 - [Google Colab](https://colab.research.google.com/drive/1y4zjPK8AsVO7i-wziO9ZSIkrPGbOAS71?usp=sharing)
 - [Code](https://pyimagesearch-code-downloads.s3-us-west-2.amazonaws.com/object-detector-in-pytorch/object-detector-in-pytorch.zip)
-- [Blog post](https://pyimagesearch.com/2021/11/01/training-an-object-detector-from-scratch-in-pytorch/?_ga=2.72087509.791523268.1684131076-844635163.1684131075)We have only one object in an image; that's a 
+- [Blog post](https://pyimagesearch.com/2021/11/01/training-an-object-detector-from-scratch-in-pytorch/?_ga=2.72087509.791523268.1684131076-844635163.1684131075)
 
 The architecture of the implemented model is the following:
 
