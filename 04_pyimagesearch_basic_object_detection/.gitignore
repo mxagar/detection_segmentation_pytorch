@@ -1,3 +1,4 @@
 *.jpg
 *.pickle
 *.zip*
+*.pth
