@@ -1,6 +1,6 @@
-# Beyond Image Classification: Object Detection and Semantic Segmentation with Pytorch
+# Beyond Image Classification: Object Detection and Semantic Segmentation with Pytorch and Tensorflow
 
-This repository collects examples and resources in which [*Object Detection*](https://en.wikipedia.org/wiki/Object_detection) and [*Semantic Segmentation*](https://en.wikipedia.org/wiki/Image_segmentation) are applied to images with [Pytorch](https://pytorch.org/).
+This repository collects examples and resources in which [*Object Detection*](https://en.wikipedia.org/wiki/Object_detection) and [*Semantic Segmentation*](https://en.wikipedia.org/wiki/Image_segmentation) are applied to images with [Pytorch](https://pytorch.org/) and [Tensorflow](https://www.tensorflow.org/) &mdash; yes, Tensorflow too, even though the repository name contains only `pytorch`.
 
 :warning: Important notes, first of all:
 
@@ -26,7 +26,7 @@ The following figure illustrates the difference between the three techniques:
 As mentioned, this repository collects practical examples that target the last two applications.
 
 ### Table of Contents
-- [Beyond Image Classification: Object Detection and Semantic Segmentation with Pytorch](#beyond-image-classification-object-detection-and-semantic-segmentation-with-pytorch)
+- [Beyond Image Classification: Object Detection and Semantic Segmentation with Pytorch and Tensorflow](#beyond-image-classification-object-detection-and-semantic-segmentation-with-pytorch-and-tensorflow)
   - [Introduction](#introduction)
     - [Table of Contents](#table-of-contents)
   - [How to Use This](#how-to-use-this)
