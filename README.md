@@ -38,6 +38,7 @@ As mentioned, this repository collects practical examples that target the last t
     - [Metrics](#metrics)
   - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
   - [List of Examples + Description Points](#list-of-examples--description-points)
+  - [Some Statistics](#some-statistics)
   - [Improvements and Possible Extensions](#improvements-and-possible-extensions)
   - [Interesting Links](#interesting-links)
   - [Authorship](#authorship)
@@ -218,7 +219,7 @@ In particular, the U-Net architecture is summarized as follows:
     - [Youtube: YOLO Object Detection Models, Nicolai Nielsen](https://www.youtube.com/playlist?list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0)
     - [Original yolov7 implementation repository](https://github.com/WongKinYiu/yolov7)
   - A custom dataset is generated with the webcam and uploaded to [Roboflow](https://roboflow.com).
-  - The dataset is labelled using Roboflow web UI.
+  - The dataset is labelled using Roboflow web UI; three objects: ball, cup, lotion.
   - The dataset is downloaded to local Windows.
   - YOLO v7 model is trained (fine-tuned) on Windows + eGPU NVIDIA RTX 3060 + Pytorch.
   - The trained model is exported to ONNX.
@@ -245,7 +246,22 @@ In particular, the U-Net architecture is summarized as follows:
       - A custom data loader is implemented to deal with the images and the annotations; the loader could be improved by openening images only when needed.
       - Only one object is detected in an image.
 - [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch)
-  - 
+  - Semantic Segmentation with 1 class, i.e., binary.
+  - Application: Below-surface salt deposit detection vs. sediments: [tgs-salt-identification-challenge](https://www.kaggle.com/competitions/tgs-salt-identification-challenge/overview).
+  - A custom dataset loader is defined, which optimally loads images & masks when `__getitem__()` is invoked.
+  - A UNet architeture is defined with all its layers; very interesting implementation.
+  - A custom data pipeline is defined: dat aloader, tranformers, train/test split, etc.
+  - Training is performed with validation in each epoch.
+  - Predictions are done with test images and the results plotted.
+  - Limitations:
+    - We have only one class / label.
+    - The images are quite simple and small (128x128x1). 
+
+## Some Statistics
+
+| Project | Operation | Size | Google Colab Pro T4 |	HP ProBook 650 G2, Intel i5-6300U @ 2.40GHz, 2 Cores | Lenovo X | Lenovo X + GeForce RTX 3060 eGPU | Macbook Pro M1 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [`04_basic_object_detection_pyimagesearch/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Training | 1,586,023 params | 139 sec | 16,530 sec |  |  |  |
 
 ## Improvements and Possible Extensions
 
