@@ -36,6 +36,7 @@ As mentioned, this repository collects practical examples that target the last t
     - [Intersection Over Union: IOU](#intersection-over-union-iou)
     - [YOLO: You Only Look Once](#yolo-you-only-look-once)
     - [Metrics](#metrics)
+    - [Model Selection](#model-selection)
   - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
   - [List of Examples + Description Points](#list-of-examples--description-points)
   - [Some Statistics](#some-statistics)
@@ -173,6 +174,37 @@ The **Intersection over Union, IOU** metric is taken into account implicitly in 
 - If the IoU is below the threshold, the predicted bounding box is considered a false positive.
 - If there are multiple predicted bounding boxes for a single ground-truth object, only the one with the highest IoU is counted as a true positive.
 
+### Model Selection
+
+Object detection is often deployed in realtime applications, for which we need to be able to perform the inference fast enough. In that sense, the introduced two model families have opposing properties:
+
+- Faster R-CNN tend to be more accurate and slower.
+- YOLO models tend to be faster and less accurate, thus better suited for realtime applications. However, it seems that the recent versions beat all possible models in terms of accuracy and speed.
+
+There is a third family of models, which is a trade-off between YOLO and Faster R-CNN: there are the **Single Shot Detectors (SSD)**, see the [`literature`](./literature/). These is a comparison of the 3 models done by ChatGPT:
+
+> 1. **Architecture Design:**
+>    - YOLO: YOLO uses a single neural network to perform both object localization and classification. It divides the input image into a grid and predicts bounding boxes and class probabilities for each grid cell.
+>    - SSD: SSD also uses a single network but employs a set of predefined anchor boxes at multiple scales and aspect ratios. It predicts offsets and confidence scores for these anchor boxes at different feature maps.
+>    - Faster R-CNN: Faster R-CNN consists of two main components: a region proposal network (RPN) that generates potential object proposals, and a separate network that performs classification and bounding box regression on these proposals.
+> 
+> 2. **Speed vs. Accuracy Trade-off:**
+>    - YOLO: YOLO is known for its real-time object detection capabilities due to its single-pass architecture. It sacrifices some accuracy for faster inference times.
+>    - SSD: SSD strikes a balance between accuracy and speed by using multiple scales and aspect ratios of anchor boxes. It achieves better accuracy than YOLO but at the cost of slightly slower inference times.
+>    - Faster R-CNN: Faster R-CNN is considered to be more accurate but slower compared to YOLO and SSD. Its two-stage approach of proposal generation and classification contributes to its higher accuracy.
+> 
+> 3. **Accuracy on Small Objects:**
+>    - YOLO: YOLO struggles with detecting small objects due to the fixed grid structure and loss of spatial information at the later stages of the network.
+>    - SSD: SSD performs relatively better than YOLO in detecting small objects because of its multiple anchor boxes at different scales.
+>    - Faster R-CNN: Faster R-CNN performs well on small objects as it utilizes the region proposal network to generate accurate object proposals.
+> 
+> 4. **Training Approach:**
+>    - YOLO: YOLO trains the network by optimizing both localization and classification losses directly. It considers objectiveness and class probabilities within each grid cell.
+>    - SSD: SSD also optimizes localization and classification losses but uses default anchor boxes and matching strategies to assign ground truth objects to these anchors.
+>    - Faster R-CNN: Faster R-CNN uses a two-stage training process. First, it trains the RPN to generate region proposals. Then, it fine-tunes the network using these proposals to perform classification and bounding box regression.
+
+We need to consider also that we use a backbone or feature extractor in Faster R-CNN and SSD; in that sense, it is possible to choose lighter networks than the typical ResNets for the task. An option are **MobileNets** (see [`literature`](./literature/)), which add a `1x1` convolution after the typical `3x3` convolution, which reduces the number of parameters in the network. As a result, the models are smaller and faster &mdash; but less accurate; they are suited for deployment on edge devices.  
+
 ## Semantic Segmentation: General Notes
 
 In this section, I provide some high level notes on the theory behind the semantic segmentation networks; for more details, check the articles listed in the [literature](literature) folder.
@@ -245,6 +277,12 @@ In particular, the U-Net architecture is summarized as follows:
         - The objects are quite similar to some COCO/ImageNet classes, nothing really weird: airplane, face, motorcycle.
       - A custom data loader is implemented to deal with the images and the annotations; the loader could be improved by openening images only when needed.
       - Only one object is detected in an image.
+  - [`03_pretrained_opencv_caffe/`](./04_basic_object_detection_pyimagesearch/03_pretrained_opencv_caffe/)
+    - This mini-project is similar to the project [`01_pretrained`](./01_pretrained/).
+    - A pre-trained MobileNet SSD network saved as a Caffe binary is loaded with `cv2.dnn` and used for inference, without training.
+    - The model is trained with COCO and fine-tuned with Pascal VOC (72.7% mAP); we can therefore detect 20 objects in images (+1 for the background class): airplanes, bicycles, birds, boats, bottles, buses, cars, cats, chairs, cows, dining tables, dogs, horses, motorbikes, people, potted plants, sheep, sofas, trains, tv monitors.
+    - We can pass any image to the loaded network and if any of the listed objects are in it, they should be detected.
+    - Multiple objects can be detected.
 - [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch)
   - Semantic Segmentation with 1 class, i.e., binary.
   - Application: Below-surface salt deposit detection vs. sediments: [tgs-salt-identification-challenge](https://www.kaggle.com/competitions/tgs-salt-identification-challenge/overview).
@@ -307,6 +345,9 @@ Other **resources and tutorials**:
 - [YOLOv5 – Custom Object Detection Training](https://learnopencv.com/custom-object-detection-training-using-yolov5/)
 - [YOLOv8 Object Tracking in Real-time with Webcam and OpenCV](https://www.youtube.com/watch?v=UYLp0-iOvFc&list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0&index=4)
 
+Interesting **datasets**:
+
+- [PyImageSearch Roboflow Datasets](https://universe.roboflow.com/pyimagesearch?ref=pyimagesearch)
 
 **Papers**: look in the folder [literature](literature/README.md).
 
