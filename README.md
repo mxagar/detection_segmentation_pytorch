@@ -227,6 +227,15 @@ In particular, the U-Net architecture is summarized as follows:
 
 ## List of Examples + Description Points
 
+| Project | Method | Architecture | Framework | Inference | Training | Custom Objects | Annotations Done | Realtime |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning) | R-CNN | Pytorch | Detection + Segmentation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
+| [`02_yolo_v3_darknet`](02_yolo_v3_darknet) | YOLO v3 | Darknet, Pytorch | Detection | :heavy_check_mark: | :x: | :x: | :x: | :x: |
+| [`03_yolo_v7_tutorial`](03_yolo_v7_tutorial) | YOLO v7 | Pytorch | Detection | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch) | U-Net | Pytorch | Segmentation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
+
+
+
 - [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
   - (Object) detection and segmentation of humans.
   - A custom data loader is defined for segmentation and detection.
@@ -284,6 +293,13 @@ In particular, the U-Net architecture is summarized as follows:
     - The model is trained with COCO and fine-tuned with Pascal VOC (72.7% mAP); we can therefore detect 20 objects in images (+1 for the background class): airplanes, bicycles, birds, boats, bottles, buses, cars, cats, chairs, cows, dining tables, dogs, horses, motorbikes, people, potted plants, sheep, sofas, trains, tv monitors.
     - We can pass any image to the loaded network and if any of the listed objects are in it, they should be detected.
     - Multiple objects can be detected.
+  - [`04_pretrained_opencv_caffe_realtime`](./04_basic_object_detection_pyimagesearch/04_pretrained_opencv_caffe_realtime/)
+    - This mini-project is the same as [`03_pretrained_opencv_caffe`](./03_pretrained_opencv_caffe/), but in this case the frames of a video are processed, showing the network can operate in realtime.
+    - A pre-trained MobileNet SSD network saved as a Caffe binary is loaded with `cv2.dnn` and used for inference, without training.
+    - 21+1 objects.
+    - Multiple objects can be detected.
+    - Realtime with video processing.
+
 - [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch)
   - Semantic Segmentation with 1 class, i.e., binary.
   - Application: Below-surface salt deposit detection vs. sediments: [tgs-salt-identification-challenge](https://www.kaggle.com/competitions/tgs-salt-identification-challenge/overview).
