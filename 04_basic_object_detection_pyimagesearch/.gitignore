@@ -3,3 +3,5 @@
 *.zip*
 *.pth
 *.caffemodel
+*.mp4
+*.avi
