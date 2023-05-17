@@ -38,6 +38,7 @@ As mentioned, this repository collects practical examples that target the last t
     - [Metrics](#metrics)
   - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
   - [List of Examples + Description Points](#list-of-examples--description-points)
+  - [Some Statistics](#some-statistics)
   - [Improvements and Possible Extensions](#improvements-and-possible-extensions)
   - [Interesting Links](#interesting-links)
   - [Authorship](#authorship)
@@ -176,7 +177,21 @@ The **Intersection over Union, IOU** metric is taken into account implicitly in 
 
 In this section, I provide some high level notes on the theory behind the semantic segmentation networks; for more details, check the articles listed in the [literature](literature) folder.
 
-:construction: To be done...
+A very common architecture used for image segmentation is U-Net; the architecture was originally developed for medical applications, but quickly was adopted in other domains, such as autonomous driving. A nice introduction of the architecture is given by this blog post: [UNet - Line by Line Explanation](https://towardsdatascience.com/unet-line-by-line-explanation-9b191c76baf5).
+
+When we perform semantic segmentation:
+
+- The input and output image sizes are the same.
+- We determine a class for each output pixel.
+
+In particular, the U-Net architecture is summarized as follows:
+
+- It has an encoder-decoder pipeline, aka. *contracting-expanding*:
+  - The encoder compresses the size of the feature maps with convolution and pooling layers.
+  - The decoder takes the final features and upscales them to the output image (i.e., the segmentation map) using transpose convolutions.
+- The different encoder/decoder stages are linked with skip connections: we pass features from the encoder levels to the equivalent decoder levels. 
+
+![U-Net Architecture](./assets/unet.jpg)
 
 ## List of Examples + Description Points
 
@@ -204,13 +219,50 @@ In this section, I provide some high level notes on the theory behind the semant
     - [Youtube: YOLO Object Detection Models, Nicolai Nielsen](https://www.youtube.com/playlist?list=PLkmvobsnE0GEfcliu9SXhtAQyyIiw9Kl0)
     - [Original yolov7 implementation repository](https://github.com/WongKinYiu/yolov7)
   - A custom dataset is generated with the webcam and uploaded to [Roboflow](https://roboflow.com).
-  - The dataset is labelled using Roboflow web UI.
+  - The dataset is labelled using Roboflow web UI; three objects: ball, cup, lotion.
   - The dataset is downloaded to local Windows.
   - YOLO v7 model is trained (fine-tuned) on Windows + eGPU NVIDIA RTX 3060 + Pytorch.
     - Weights and Biases is used to track the training.
   - The trained model is exported to ONNX.
   - The model (both Pytorch and ONNX) is run for online inference with webcam.
 
+- [`04_basic_object_detection_pyimagesearch`](04_basic_object_detection_pyimagesearch)
+  - [`01_pretrained`](./04_basic_object_detection_pyimagesearch/01_pretrained/)
+    - [Blog post](https://pyimagesearch.com/2021/08/02/pytorch-object-detection-with-pre-trained-networks/?_ga=2.9215987.791523268.1684131076-844635163.1684131075)
+    - We can pass any image to it **of any size** and if there are COCO objects in it, they will be detected and a rectangle will be drawn for each of them.
+    - We can have several objects per image.
+    - Apart from the notebook, we have two implementations in scripts:
+      - Static images can be passed: [`detect_image.py`](./01_pretrained/pytorch-object-detection/detect_image.py); this is equivalent to the notebook code.
+      - A video stream can be passed and the objects are detected in real time: [`detect_realtime.py`](./01_pretrained/pytorch-object-detection/detect_realtime.py); this is a modification of the previous file to work with video streams. The speed is not great (approximately 2.42 FPS on CPU), but is works!
+  - [`02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/)
+    - [Blog post](https://pyimagesearch.com/2021/11/01/training-an-object-detector-from-scratch-in-pytorch/?_ga=2.72087509.791523268.1684131076-844635163.1684131075)
+    - The pre-trained ResNet50 network is used as backbone, with weights frozen.
+    - To the backbone, we attach two networks in parallel: one for regressing the bounding boxes, one for the classification labels.
+    - We assume we have only one object in an image; that's an important limitation, but the motivation of the network is educational; the model is defined and trained from-scratch using pre-trained weights of the backbone.
+    - A custom dataset loader is defined; it could be improved: it load all images together, but each could be opened every time we access it.
+    - Overall I thinks it's a nice example to see how to implement things end-to-end, but we need to be aware of the **limitations**:
+      - We have 3 custom objects, but:
+        - The annotations are provided already.
+        - The objects are quite similar to some COCO/ImageNet classes, nothing really weird: airplane, face, motorcycle.
+      - A custom data loader is implemented to deal with the images and the annotations; the loader could be improved by openening images only when needed.
+      - Only one object is detected in an image.
+- [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch)
+  - Semantic Segmentation with 1 class, i.e., binary.
+  - Application: Below-surface salt deposit detection vs. sediments: [tgs-salt-identification-challenge](https://www.kaggle.com/competitions/tgs-salt-identification-challenge/overview).
+  - A custom dataset loader is defined, which optimally loads images & masks when `__getitem__()` is invoked.
+  - A UNet architeture is defined with all its layers; very interesting implementation.
+  - A custom data pipeline is defined: dat aloader, tranformers, train/test split, etc.
+  - Training is performed with validation in each epoch.
+  - Predictions are done with test images and the results plotted.
+  - Limitations:
+    - We have only one class / label.
+    - The images are quite simple and small (128x128x1). 
+
+## Some Statistics
+
+| Project | Operation | Size | Google Colab Pro T4 |	HP ProBook 650 G2, Intel i5-6300U @ 2.40GHz, 2 Cores | Lenovo X | Lenovo X + GeForce RTX 3060 eGPU | Macbook Pro M1 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [`04_basic_object_detection_pyimagesearch/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Training | 1,586,023 params | 139 sec | 16,530 sec |  |  |  |
 
 ## Improvements and Possible Extensions
 
