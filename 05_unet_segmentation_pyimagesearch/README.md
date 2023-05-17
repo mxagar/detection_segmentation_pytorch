@@ -99,12 +99,12 @@ rm train.zip
 cd ../..
 pwd # unet-tgs-salt-pytorch
 
-# Option 1: Open and run the jupyter notebook
-# Same code as in the scripts, but organized in modules + MY NOTES
-jupyter notebook unet_pytorch.ipynb
-
-# Option 2: Run ready scripts
+# Option 1: Run ready scripts
 python train.py
 python predict.py
+
+# Option 2: Open and run the jupyter notebook
+# Same code as in the scripts, but organized in modules + MY NOTES
+jupyter notebook unet_pytorch.ipynb
 ```
 
