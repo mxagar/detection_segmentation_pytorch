@@ -176,7 +176,21 @@ The **Intersection over Union, IOU** metric is taken into account implicitly in 
 
 In this section, I provide some high level notes on the theory behind the semantic segmentation networks; for more details, check the articles listed in the [literature](literature) folder.
 
-:construction: To be done...
+A very common architecture used for image segmentation is U-Net; the architecture was originally developed for medical applications, but quickly was adopted in other domains, such as autonomous driving. A nice introduction of the architecture is given by this blog post: [UNet - Line by Line Explanation](https://towardsdatascience.com/unet-line-by-line-explanation-9b191c76baf5).
+
+When we perform semantic segmentation:
+
+- The input and output image sizes are the same.
+- We determine a class for each output pixel.
+
+In particular, the U-Net architecture is summarized as follows:
+
+- It has an encoder-decoder pipeline, aka. *contracting-expanding*:
+  - The encoder compresses the size of the feature maps with convolution and pooling layers.
+  - The decoder takes the final features and upscales them to the output image (i.e., the segmentation map) using transpose convolutions.
+- The different encoder/decoder stages are linked with skip connections: we pass features from the encoder levels to the equivalent decoder levels. 
+
+![U-Net Architecture](./assets/unet.jpg)
 
 ## List of Examples + Description Points
 
@@ -223,12 +237,15 @@ In this section, I provide some high level notes on the theory behind the semant
     - The pre-trained ResNet50 network is used as backbone, with weights frozen.
     - To the backbone, we attach two networks in parallel: one for regressing the bounding boxes, one for the classification labels.
     - We assume we have only one object in an image; that's an important limitation, but the motivation of the network is educational; the model is defined and trained from-scratch using pre-trained weights of the backbone.
+    - A custom dataset loader is defined; it could be improved: it load all images together, but each could be opened every time we access it.
     - Overall I thinks it's a nice example to see how to implement things end-to-end, but we need to be aware of the **limitations**:
       - We have 3 custom objects, but:
         - The annotations are provided already.
         - The objects are quite similar to some COCO/ImageNet classes, nothing really weird: airplane, face, motorcycle.
       - A custom data loader is implemented to deal with the images and the annotations; the loader could be improved by openening images only when needed.
       - Only one object is detected in an image.
+- [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch)
+  - 
 
 ## Improvements and Possible Extensions
 
