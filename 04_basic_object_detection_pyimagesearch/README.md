@@ -4,8 +4,10 @@ This folder contains examples/code from the following PyImageSearch tutorials:
 
 1. [Object Detection with Pre-Trained Networks and PyTorch](https://www.pyimagesearch.com/2021/08/02/pytorch-object-detection-with-pre-trained-networks/?_ga=2.9215987.791523268.1684131076-844635163.1684131075)
 2. [Training an object detector from scratch in PyTorch](https://pyimagesearch.com/2021/11/01/training-an-object-detector-from-scratch-in-pytorch/?_ga=2.72087509.791523268.1684131076-844635163.1684131075)
+3. [Object detection with deep learning and OpenCV / Caffe](https://pyimagesearch.com/2017/09/11/object-detection-with-deep-learning-and-opencv/?_ga=2.70262736.1576899293.1684317349-844635163.1684131075)
+4. []()
 
-## Object Detection with Pre-Trained Networks and PyTorch
+## 1. Object Detection with Pre-Trained Networks and PyTorch
 
 This section is implemented in [`01_pretrained/`](./01_pretrained/); the notebook [`pytorch_object_detection.ipynb`](./01_pretrained/pytorch_object_detection.ipynb) contains the implementation of the image detector.
 
@@ -79,7 +81,7 @@ jupyter notebook pytorch_object_detection.ipynb
 
 My notes are in the comments of the notebook: [01_pretrained/pytorch_object_detection.ipynb](./01_pretrained/pytorch_object_detection.ipynb).
 
-## Training an object detector from scratch in PyTorch
+## 2. Training an object detector from scratch in PyTorch
 
 This section is implemented in [`02_trained/`](./02_trained/); the notebook [`object_detector_in_pytorch.ipynb`](./02_trained/object_detector_in_pytorch.ipynb) contains the implementation.
 
@@ -175,3 +177,15 @@ jupyter notebook object_detector_in_pytorch.ipynb
 ```
 
 My notes are in the comments of the notebook: [02_trained/object_detector_in_pytorch.ipynb](./02_trained/object_detector_in_pytorch.ipynb).
+
+## 3. Object detection with deep learning and OpenCV / Caffe
+
+This mini-project is similar to the project [`01_pretrained`](./01_pretrained/). These are the main differences:
+
+- A pre-trained MobileNet SSD network saved as a Caffe binary is loaded with `cv2.dnn` and used for inference, without training.
+- The model is trained with COCO and fine-tuned with Pascal VOC (72.7% mAP); we can therefore detect 20 objects in images (+1 for the background class): airplanes, bicycles, birds, boats, bottles, buses, cars, cats, chairs, cows, dining tables, dogs, horses, motorbikes, people, potted plants, sheep, sofas, trains, tv monitors.
+- We can pass any image to the loaded network and if any of the listed objects are in it, they should be detected.
+- Multiple objects can be detected.
+
+Everything is in the notebook [`object_detection_deep_learning.ipynb`](./03_pretrained_opencv_caffe/object_detection_deep_learning.ipynb), as well as in the script: [`deep_learning_object_detection.py`](./03_pretrained_opencv_caffe/object-detection-deep-learning/deep_learning_object_detection.py).
+
