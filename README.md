@@ -207,6 +207,7 @@ In this section, I provide some high level notes on the theory behind the semant
   - The dataset is labelled using Roboflow web UI.
   - The dataset is downloaded to local Windows.
   - YOLO v7 model is trained (fine-tuned) on Windows + eGPU NVIDIA RTX 3060 + Pytorch.
+    - Weights and Biases is used to track the training.
   - The trained model is exported to ONNX.
   - The model (both Pytorch and ONNX) is run for online inference with webcam.
 
