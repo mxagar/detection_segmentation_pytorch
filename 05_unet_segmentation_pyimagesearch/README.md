@@ -19,7 +19,7 @@ Summary of the contents:
 Limitations:
 
 - We have only one class / label.
-- The images are quite simple.
+- The images are quite simple and small (128x128x1).
 
 Material links:
 
