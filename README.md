@@ -298,9 +298,9 @@ In particular, the U-Net architecture is summarized as follows:
 
 ## Some Statistics
 
-| Project | Operation | Size | Google Colab Pro T4 |	HP ProBook 650 G2, Intel i5-6300U @ 2.40GHz, 2 Cores | Lenovo ThinkPad P14s Gen 2, Intel i7-1165G7 @ 2.80GHz, 4 Cores | Lenovo TP P14s + NVIDIA T500 | Lenovo TP P14s + NVIDIA GeForce RTX 3060 eGPU | Macbook Pro M1 |
+| Project | Operation | Size | Google Colab Pro T4 |	HP ProBook 650 G2, Intel i5-6300U @ 2.40GHz, 2 Cores | Lenovo ThinkPad P14s Gen 2, Intel i7-1165G7 @ 2.80GHz, 4 Cores - 16+32 GB | Lenovo TP P14s + NVIDIA T500 (built-in) - 4 GB | Lenovo TP P14s + NVIDIA GeForce RTX 3060 eGPU - 12 GB | Macbook Pro M1 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [`04_basic_object_detection_pyimagesearch/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Training | 1,586,023 params | 139 sec | 16,530 sec | 3,821 sec |  |  |  |
+| [`04_basic_object_detection_pyimagesearch/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Training | 1,586,023 params | 139 sec | 16,530 sec | 3,821 sec | 561 sec | 131 sec |  |
 
 ## Improvements and Possible Extensions
 
