@@ -189,3 +189,26 @@ This mini-project is similar to the project [`01_pretrained`](./01_pretrained/).
 
 Everything is in the notebook [`object_detection_deep_learning.ipynb`](./03_pretrained_opencv_caffe/object_detection_deep_learning.ipynb), as well as in the script: [`deep_learning_object_detection.py`](./03_pretrained_opencv_caffe/object-detection-deep-learning/deep_learning_object_detection.py).
 
+Material links:
+
+- [Google Colab](https://colab.research.google.com/drive/1j6mucUsAnTL6_G-eS0-aj8PRy0L3iknT?usp=sharing)
+- [Code](https://pyimagesearch-code-downloads.s3-us-west-2.amazonaws.com/object-detection-deep-learning/object-detection-deep-learning.zip)
+- [Blog post](https://www.pyimagesearch.com/2017/09/11/object-detection-with-deep-learning-and-opencv/?_ga=2.201808721.1576899293.1684317349-844635163.1684131075)
+
+## 4. Realtime object detection with deep learning and OpenCV / Caffe
+
+This mini-project is the same as [`03_pretrained_opencv_caffe`](./03_pretrained_opencv_caffe/), but in this case the frames of a video are processed, showing the network can operate in realtime. Features:
+
+- A pre-trained MobileNet SSD network saved as a Caffe binary is loaded with `cv2.dnn` and used for inference, without training.
+- 21+1 objects.
+- Multiple objects can be detected.
+- Realtime with video processing.
+
+Everything is in the notebook [`real_time_object_detection.ipynb`](./04_pretrained_opencv_caffe_realtime/real_time_object_detection.ipynb), as well as in the script: [`real_time_object_detection.py`](./04_pretrained_opencv_caffe_realtime/real-time-object-detection/real_time_object_detection.py).
+
+Material links:
+
+- [Google Colab](https://colab.research.google.com/drive/1BANvqUwbq6QwsHF4CWtF2jqxSF-cXwhW?usp=sharing)
+- [Code](https://pyimagesearch-code-downloads.s3-us-west-2.amazonaws.com/real-time-object-detection/real-time-object-detection.zip)
+- [Blog post](https://www.pyimagesearch.com/2017/09/18/real-time-object-detection-with-deep-learning-and-opencv/?_ga=2.201800913.1576899293.1684317349-844635163.1684131075)
+
