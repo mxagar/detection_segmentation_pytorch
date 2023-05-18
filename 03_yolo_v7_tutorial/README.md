@@ -80,7 +80,7 @@ conda activate yolov7
 # https://github.com/pytorch/vision#installation
 # The default conda installation command DID NOT WORK
 conda install pytorch=1.12 torchvision=0.13 torchtext=0.13 torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
-# But the following pip install comman DID WORK
+# But the following pip install command DID WORK
 python -m pip install torch==1.13+cu117 torchvision==0.14+cu117 torchaudio torchtext==0.14 --index-url https://download.pytorch.org/whl/cu117
 
 # Pytorch: Mac / Windows CPU (not tested)
