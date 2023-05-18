@@ -75,6 +75,23 @@ Object detection networks can use classification backbones to extract features, 
 
 A naive implementation could add two branches to the feature maps: one for regressing the `[x,y,w,h]` floats of the bounding box and another one for mapping the features to the class probabilities. However, that allows a unique object to be detected in the image; thus, more sophisticated architectures are needed, which nonetheless, are based on that double mapping principle.
 
+### Sliding Windows
+
+Another easy way to convert any pre-trained CNN (or any classifier, really) into an object detection model consists in using **image pyramids** and **sliding windows**. The first allow for a multi-scale representation on which ROIs of different sizes are slided; for each captured image patch, a classifier is run (a CNN, linear SVM, etc.). In practice, it is as if we slided many boxes of differenyt sizes on the image and as if we run the CNN/classifier on each of the windows.
+
+As the window gets closer to a learned object, the probabilities increase; up from a threshold, we take the proposal as valid. This approach is similar to what is done by **HOG, Histogram Oriented Gradients** or **Haar Cascades**.
+
+When we use sliding windows, end up with many overlapping regions. We can collapse all these ROIs with **non-maximal supression** applied class-wise (see explanation in the [YOLO](#yolo-you-only-look-once) section).
+
+This approach is a first approximation with which we can convert any classification network to be an object detection network; however, the resulting model has important limitations:
+
+- It is very slow: we need to generate many image patches and run the classifierin all of them.
+- It is constrained to the chosen window size/shape; that could be extended, but we'd require much more time.
+- Bouding box locations are not accurate.
+- The network is not end-to-end trainable: we train the classifier, but the bounding box detection algorithm is not trained!
+
+For more information, check this [PyImageSearch blog post](https://pyimagesearch.com/2020/06/22/turning-any-cnn-image-classifier-into-an-object-detector-with-keras-tensorflow-and-opencv/?_ga=2.196098284.1576899293.1684317349-844635163.1684131075).
+
 ### Faster R-CNN
 
 One type of architecture for object detection is **Region-CNN**, or **R-CNN**; there are several versions of it, but the one typically used (due to its performance) is the **Faster R-CNN**.
@@ -227,14 +244,17 @@ In particular, the U-Net architecture is summarized as follows:
 
 ## List of Examples + Description Points
 
-| Project | Method | Architecture | Framework | Inference | Training | Custom Objects | Annotations Done | Realtime |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning) | R-CNN | Pytorch | Detection + Segmentation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
-| [`02_yolo_v3_darknet`](02_yolo_v3_darknet) | YOLO v3 | Darknet, Pytorch | Detection | :heavy_check_mark: | :x: | :x: | :x: | :x: |
-| [`03_yolo_v7_tutorial`](03_yolo_v7_tutorial) | YOLO v7 | Pytorch | Detection | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch) | U-Net | Pytorch | Segmentation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
-
-
+| Project | Method | Architecture | Framework | Inference | Training | Custom Objects | Multiple Objects |  Annotations Done | Realtime |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning) | Detection + Segmentation | R-CNN | Pytorch | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
+| [`02_yolo_v3_darknet`](02_yolo_v3_darknet) | Detection | YOLO v3 | Darknet, Pytorch | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: |
+| [`03_yolo_v7_tutorial`](03_yolo_v7_tutorial) | Detection | YOLO v7 | Pytorch | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch) | Segmentation | U-Net | Pytorch | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | - | :x: | :x: |
+| [`04/01_pretrained`](./04_basic_object_detection_pyimagesearch/01_pretrained/) | Detection | Faster R-CNN (+ ResNet / MobileNet), RetinaNet | Pytorch | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: / :heavy_check_mark: |
+| [`04/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Detection | ResNet + Single Object Detector, RetinaNet | Pytorch | :heavy_check_mark: | :x: | :heavy_check_mark: | :x: | :x: | :x: / :heavy_check_mark: |
+| [`04/03_pretrained_opencv_caffe`](./04_basic_object_detection_pyimagesearch/03_pretrained_opencv_caffe/) | Detection | SSD + MobileNet | Caffe, OpenCV | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: / :heavy_check_mark: |
+| [`04/04_pretrained_opencv_caffe_realtime`](./04_basic_object_detection_pyimagesearch/04_pretrained_opencv_caffe_realtime/) | Detection | SSD + MobileNet | Caffe, OpenCV | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :heavy_check_mark: |
+| [`06/classifier_to_detector.ipynb`](./06_rcnn_tensorflow/classifier_to_detector.ipynb) | Detection | ResNet + Sliding Winwdow + Pyramids | Tensorflow | :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: | :x: |
 
 - [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
   - (Object) detection and segmentation of humans.
@@ -311,6 +331,16 @@ In particular, the U-Net architecture is summarized as follows:
   - Limitations:
     - We have only one class / label.
     - The images are quite simple and small (128x128x1). 
+
+- [`06_rcnn_tensorflow/classifier_to_detector.ipynb`](./06_rcnn_tensorflow/classifier_to_detector.ipynb)
+  - Object Detection: any pre-trained classifier (e.g., a ResNet CNN) is converted into an object detector using image pyramids and sliding windows.
+  - This is part of a series of blog posts that show intuitively how we can go from classifiers to object detectors, ending up in a commonly used Region Proposal CNN, or R-CNN.
+  - This is an interesting but rather theoretical notebook; a first approach, but not a usable one.
+  - Limitations:
+    - Very slow.
+    - Fixed bounding box shapes/sizes.
+    - Not accurate bounding boxes.
+    - Bounding box generation cannot be trained.
 
 ## Some Statistics
 
