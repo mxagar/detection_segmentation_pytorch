@@ -1,0 +1,6 @@
+*.jpg
+*.pickle
+*.zip*
+*.pth
+kaggle.json
+dataset
