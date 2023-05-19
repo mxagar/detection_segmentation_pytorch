@@ -73,7 +73,11 @@ Object detection networks can use classification backbones to extract features, 
 - regress Regions of Interest (ROI), i.e., bounding boxes, that likely contain an object
 - and yield class probabilities for those bounding boxes.
 
+### Bounding Box Regression
+
 A naive implementation could add two branches to the feature maps: one for regressing the `[x,y,w,h]` floats of the bounding box and another one for mapping the features to the class probabilities. However, that allows a unique object to be detected in the image; thus, more sophisticated architectures are needed, which nonetheless, are based on that double mapping principle.
+
+Nevertheless, note that bounding box regression could be applied in a clever way so that we handle the regression for several objects.
 
 ### Sliding Windows
 
@@ -92,7 +96,7 @@ This approach is a first approximation with which we can convert any classificat
 
 For more information, check this [PyImageSearch blog post](https://pyimagesearch.com/2020/06/22/turning-any-cnn-image-classifier-into-an-object-detector-with-keras-tensorflow-and-opencv/?_ga=2.196098284.1576899293.1684317349-844635163.1684131075).
 
-### Faster R-CNN
+### R-CNN and Faster R-CNN
 
 One type of architecture for object detection is **Region-CNN**, or **R-CNN**; there are several versions of it, but the one typically used (due to its performance) is the **Faster R-CNN**.
 
@@ -104,9 +108,9 @@ The **Faster R-CNN** network has the following steps:
 - For each ROI, ROI pooling is performed: non-uniform cells of pooling are applied to warp the ROIs to standard sizes
 - The last part of the network predicts the class of the ROI.
 
-The main difference between the R-CNN architectures lies on the ROI detection: less efficient networks project ROIs computed after applying classical algorithms (e.g., selective search), while the Faster R-CNN uses a Region Proposal Network.
+The main difference between the R-CNN architectures lies on the ROI detection: less efficient networks project ROIs computed after applying classical algorithms (e.g., [selective search](https://pyimagesearch.com/2020/07/13/r-cnn-object-detection-with-keras-tensorflow-and-deep-learning/?_ga=2.195976428.1576899293.1684317349-844635163.1684131075)), while the Faster R-CNN uses a Region Proposal Network. Also, note that the main difference between the *sliding window* approach mentioned before and R-CNNs is that we effectively reduce the number of regions sent to the classifier: with sliding windows we carry out a brute force approach, whereas with R-CNNs we select the most probable regions.
 
-Region proposal networks work as follows:
+Region proposal networks from Faster R-CNNs work as follows:
 
 - A small (usually 3x3) window is slided on the feature maps.
 - `k` anchor boxes are applied on each window. These anchor boxes are pre-defined boxes with different aspect ratios.
@@ -123,6 +127,8 @@ The following image gives an overview of the major steps in Faster R-CNN:
 The metric used in object detection to evaluate the quality of the bounding boxes is the **intersection over union** or **IOU** ratio, computed with the intersection and union areas of the predicted and ground truth bounding boxes. Ideally, the value should be 1.
 
 ![Intersection ofver Union](./assets/IOU.png)
+
+More information: [PyImageSeearch: Intersection over Union](https://pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/).
 
 ### YOLO: You Only Look Once
 
@@ -157,6 +163,8 @@ This approach yields many bounding box candidates for the same object, which com
 3. Compute the IoUs of the other bounding boxes with respect to the one with the largest `p_c`.
 4. Remove all bounding boxes which have a high IoU value, e.g., `IoU >= iou_thres = 0.4`.
 5. Repeat from step 2 using the cells that are remaining.
+
+More information: [PyImageSearch: Non-Maximal Supression](https://pyimagesearch.com/2014/11/17/non-maximum-suppression-object-detection-python/).
 
 Note that in case two different objects overlap, this algorithm would not work, since the overlapping object would default to one. For those cases, **anchor boxes** are used.
 
@@ -242,6 +250,16 @@ In particular, the U-Net architecture is summarized as follows:
 
 ![U-Net Architecture](./assets/unet.jpg)
 
+## Labelling or Annotation Tools
+
+:construction: TBD.
+
+- [Roboflow](https://roboflow.com/)
+- [CVAT](https://www.cvat.ai/)
+- [Label Studio](https://labelstud.io/)
+- [Voxel 51](https://voxel51.com/)
+
+
 ## List of Examples + Description Points
 
 | Project | Method | Architecture | Framework | Inference | Training | Custom Objects | Multiple Objects |  Annotations Done | Realtime |
@@ -254,7 +272,8 @@ In particular, the U-Net architecture is summarized as follows:
 | [`04/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Detection | ResNet + Single Object Detector, RetinaNet | Pytorch | :heavy_check_mark: | :x: | :heavy_check_mark: | :x: | :x: | :x: / :heavy_check_mark: |
 | [`04/03_pretrained_opencv_caffe`](./04_basic_object_detection_pyimagesearch/03_pretrained_opencv_caffe/) | Detection | SSD + MobileNet | Caffe, OpenCV | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: / :heavy_check_mark: |
 | [`04/04_pretrained_opencv_caffe_realtime`](./04_basic_object_detection_pyimagesearch/04_pretrained_opencv_caffe_realtime/) | Detection | SSD + MobileNet | Caffe, OpenCV | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :heavy_check_mark: |
-| [`06/classifier_to_detector.ipynb`](./06_rcnn_tensorflow/classifier_to_detector.ipynb) | Detection | ResNet + Sliding Winwdow + Pyramids | Tensorflow | :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: | :x: |
+| [`06/classifier_to_detector.ipynb`](./06_rcnn_tensorflow/classifier_to_detector.ipynb) | Detection | ResNet + Sliding Window + Pyramids | Tensorflow | :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: | :x: |
+| [`06/training_rcnn_keras.ipynb`](./06_rcnn_tensorflow/training_rcnn_keras.ipynb) | Detection | R-CNN: MobileNet + Selective Search | Tensorflow | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  :heavy_check_mark: | :x: | :x: |
 
 - [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
   - (Object) detection and segmentation of humans.
@@ -332,15 +351,40 @@ In particular, the U-Net architecture is summarized as follows:
     - We have only one class / label.
     - The images are quite simple and small (128x128x1). 
 
-- [`06_rcnn_tensorflow/classifier_to_detector.ipynb`](./06_rcnn_tensorflow/classifier_to_detector.ipynb)
-  - Object Detection: any pre-trained classifier (e.g., a ResNet CNN) is converted into an object detector using image pyramids and sliding windows.
-  - This is part of a series of blog posts that show intuitively how we can go from classifiers to object detectors, ending up in a commonly used Region Proposal CNN, or R-CNN.
-  - This is an interesting but rather theoretical notebook; a first approach, but not a usable one.
-  - Limitations:
-    - Very slow.
-    - Fixed bounding box shapes/sizes.
-    - Not accurate bounding boxes.
-    - Bounding box generation cannot be trained.
+- [`06_rcnn_tensorflow`](./06_rcnn_tensorflow)
+  - [`classifier_to_detector.ipynb`](./classifier_to_detector.ipynb)
+    - Object Detection: any pre-trained classifier (e.g., a ResNet CNN) is converted into an object detector using image pyramids and sliding windows.
+    - This is part of a series of blog posts that show intuitively how we can go from classifiers to object detectors, ending up in a commonly used Region Proposal CNN, or R-CNN.
+    - This is an interesting but rather theoretical notebook; a first approach, but not a usable one.
+    - Limitations:
+      - Very slow.
+      - Fixed bounding box shapes/sizes.
+      - Not accurate bounding boxes.
+      - Bounding box generation cannot be trained.
+  - [`opencv_selective_search.ipynb`](./06_rcnn_tensorflow/opencv_selective_search.ipynb)
+    - Example of selective search.
+  - [`region_proposal_object_detection.ipynb`](./06_rcnn_tensorflow/region_proposal_object_detection.ipynb)
+    - First version of R-CNN but without proper training.
+    - The window sliding + pyramids part is replaced by selective search region proposals.
+  - [`training_rcnn_keras.ipynb`](./06_rcnn_tensorflow/training_rcnn_keras.ipynb)
+    - R-CNN implementation (training + inference) on a racoon dataset:
+      1. Build object detection dataset with Selective Search
+        - Take 200 images + XML
+        - Parse XML with BeautifulSoup
+        - Run selective search on each of the images
+        - Take the regions of the selective search and see if they overlap considerably with ground truth from XML; if so, crop image patch and save to `racoon` folder, otherwise crop image and save to `no_racoon` folder
+      2. Fine-tune classification model on created dataset
+          - Use the `racoon` and `no_racoon` images to fine-tune a pre-trained CNN.
+          - A final classifier with 2 outputs is added to the MobileNet.
+          - The backbone (MobilNet) is frozen, only the weights of the classifier are trained with the generated dataset.
+          - Data augmentation is used.
+      3. During inferene, run selective search on input image
+          - ROIs of the selective search are passed to the fine-tuned model.
+      4. Predict with fine-tuned model on proposed region
+          - Only predictions with a high confidence (`0.99`) are taken.
+      5. Apply Non-maximal Supression
+      6. Return final object detection results
+    - Note: we still don't train the model to predict bounding boxes (i.e., bounding box regression, end-to-end trainable), but we take the ROIs from selective search.
 
 ## Some Statistics
 
@@ -359,6 +403,9 @@ In particular, the U-Net architecture is summarized as follows:
   - [ ] Complement tutorial with notes from these articles: 
     - [Fine Tuning YOLOv7 on Custom Dataset](https://learnopencv.com/fine-tuning-yolov7-on-custom-dataset/)
     - [YOLOv7 Object Detection Paper Explanation & Inference](https://learnopencv.com/yolov7-object-detection-paper-explanation-and-inference/)
+- [ ] SSD
+- [ ] RetinaNet
+- [ ] SAM
 
 ## Interesting Links
 
