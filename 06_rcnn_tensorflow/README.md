@@ -36,7 +36,7 @@ All this approach is a first approximation with which we can convert any classif
 
 ![Sliding Windows, from PyImageSearch](./pics/sliding_window_approach.jpg)
 
-We can run the notebook [`classifier_to_detector.ipynb`](./classifier-to-detector/classifier_to_detector.ipynb) or the provided python script [`detect_with_classifier.py`](./classifier-to-detector/detect_with_classifier.py):
+We can run the notebook [`classifier_to_detector.ipynb`](./classifier_to_detector.ipynb) or the provided python script [`detect_with_classifier.py`](./classifier-to-detector/detect_with_classifier.py):
 
 ```bash
 conda activate ds
@@ -46,6 +46,7 @@ cd classifier-to-detector
 python detect_with_classifier.py --image images/hummingbird.jpg --size "(250, 250)"
 
 # Notebook
+cd ..
 jupyter lab classifier_to_detector.ipynb
 ```
 
@@ -81,19 +82,22 @@ As we build the hierarchy, objects start to appear in the image; effectively, we
 
 ![Selective Serach, from PyImageSearch](./pics/selective_search.jpg)
 
---> HERE
+Thus, selective search is similar to [saliency detection](https://pyimagesearch.com/2018/07/16/opencv-saliency-detection/): regions are identified which could contain objects.
 
-We can run the notebook [`classifier_to_detector.ipynb`](./classifier-to-detector/classifier_to_detector.ipynb) or the provided python script [`detect_with_classifier.py`](./classifier-to-detector/detect_with_classifier.py):
+The contributions package of OpenCV has a built-in module which performs automatically selective search; that's what is shown in the code.
+
+We can run the notebook [`opencv_selective_search.ipynb`](./opencv_selective_search.ipynb) or the provided python script [`selective_search.py`](./opencv-selective-search/selective_search.py):
 
 ```bash
 conda activate ds
 cd classifier-to-detector
 
 # Script
-python detect_with_classifier.py --image images/hummingbird.jpg --size "(250, 250)"
+python selective_search.py --image dog.jpg 
 
 # Notebook
-jupyter lab classifier_to_detector.ipynb
+cd ..
+jupyter lab opencv_selective_search.ipynb
 ```
 
 Interesting links:
