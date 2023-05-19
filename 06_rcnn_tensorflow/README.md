@@ -1,13 +1,25 @@
 # PyImageSearch: R-CNN with Tensorflow
 
-This mini-project is a series of 4 tutorials in which a Region Proposal CNN is built from scratch. Both theory and practical aspects are visited. We see intuitively how we can go from classifiers to object detectors, passing thorough different stages.
+This mini-project is a series of 4 tutorials in which a Region Proposal CNN is built from scratch. Both theory and practical aspects are visited. We see intuitively how we can go from classifiers to object detectors, passing thorough different stages:
+
+- A
+- B
+- C
 
 These are the related blog posts:
 
 1. [Turning Any Deep Learning Image Classifier into an Object Detector](https://pyimagesearch.mykajabi.com/products/pyimagesearch-university-full-access-plan/categories/4727361/posts/2147742271)
 2. [OpenCV Selective Search for Object Detection](https://pyimagesearch.com/2020/06/29/opencv-selective-search-for-object-detection/?_ga=2.24076154.1576899293.1684317349-844635163.1684131075)
-3. C
+3. [Region proposal object detection with OpenCV, Keras, and TensorFlow](https://pyimagesearch.com/2020/07/06/region-proposal-object-detection-with-opencv-keras-and-tensorflow/?_ga=2.36462432.1576899293.1684317349-844635163.1684131075)
+4. [R-CNN object detection with Keras, TensorFlow, and Deep Learning](https://pyimagesearch.com/2020/07/13/r-cnn-object-detection-with-keras-tensorflow-and-deep-learning/?_ga=2.195976428.1576899293.1684317349-844635163.1684131075)
+
+The associated notebooks which contain all the code are the following:
+
+1. [`classifier_to_detector.ipynb`](./classifier_to_detector.ipynb)
+2. [`opencv_selective_search.ipynb`](./opencv_selective_search.ipynb)
+3. [`region_proposal_object_detection.ipynb`](./region_proposal_object_detection.ipynb)
 4. D
+
 
 ## 1. Turning any CNN image classifier into an object detector with Keras, TensorFlow, and OpenCV
 
@@ -104,3 +116,39 @@ Interesting links:
 
 - [Selective Search poster](https://www.koen.me/research/pub/vandesande-iccv2011-poster.pdf)
 - [Saliency detection](https://pyimagesearch.com/2018/07/16/opencv-saliency-detection/)
+
+## 3. Region proposal object detection with OpenCV, Keras, and TensorFlow
+
+Material:
+
+- [Blog post](https://www.pyimagesearch.com/2020/07/06/region-proposal-object-detection-with-opencv-keras-and-tensorflow/?_ga=2.201152622.1576899293.1684317349-844635163.1684131075)
+- [Google Colab](https://colab.research.google.com/drive/15S6aRDKMlCNckEFmJ5dV1Ss307syZJAw?usp=sharing)
+- [Code](https://pyimagesearch-code-downloads.s3-us-west-2.amazonaws.com/region-proposal-object-detection/region-proposal-object-detection.zip)
+
+In this mini-project, the *selective search* code from the previous section is used to replace the window sliding from the first section; that way, we convert a CNN into an object detector, as done at the beginning, but using proposed regions, which reduces considerably the search space. This is very similar to the approach presented in the original R-CNN paper by Girschick et al.
+
+Converting a classifier into an object detector has an additional advantage: we don't need to annotate the objects with boundig boxes! It's enough to label the images!
+
+Using a general pre-trained network has also 
+
+We can run the notebook [`region_proposal_object_detection.ipynb`](./region_proposal_object_detection.ipynb) or the provided python script [`region_proposal_detection.py`](./region-proposal-object-detection/region_proposal_detection.py):
+
+```bash
+conda activate ds
+cd region-proposal-object-detection
+
+# Script
+python region_proposal_detection.py --image beagle.png
+
+# Notebook
+cd ..
+jupyter lab region_proposal_object_detection.ipynb
+```
+
+## 4. R-CNN object detection with Keras, TensorFlow, and Deep Learning
+
+Material:
+
+- [Blog post](https://pyimagesearch.com/2020/07/13/r-cnn-object-detection-with-keras-tensorflow-and-deep-learning/?_ga=2.195976428.1576899293.1684317349-844635163.1684131075)
+- [Google Colab](https://colab.research.google.com/drive/1LWj7-xWnj2LYDfqLjbXVapB2l4fl31Z0?usp=sharing)
+- [Code](https://pyimagesearch-code-downloads.s3-us-west-2.amazonaws.com/training-rcnn-keras/training-rcnn-keras.zip)
