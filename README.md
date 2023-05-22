@@ -262,18 +262,21 @@ In particular, the U-Net architecture is summarized as follows:
 
 ## List of Examples + Description Points
 
-| Project | Method | Architecture | Framework | Inference | Training | Custom Objects | Multiple Objects |  Annotations Done | Realtime |
+| Project | Method | Architecture | Framework | Inference | Training | Custom Class(es) | Multiple Instances | Annotations Done | Realtime |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning) | Detection + Segmentation | R-CNN | Pytorch | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
 | [`02_yolo_v3_darknet`](02_yolo_v3_darknet) | Detection | YOLO v3 | Darknet, Pytorch | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: |
 | [`03_yolo_v7_tutorial`](03_yolo_v7_tutorial) | Detection | YOLO v7 | Pytorch | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | [`05_unet_segmentation_pyimagesearch`](./05_unet_segmentation_pyimagesearch) | Segmentation | U-Net | Pytorch | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | - | :x: | :x: |
 | [`04/01_pretrained`](./04_basic_object_detection_pyimagesearch/01_pretrained/) | Detection | Faster R-CNN (+ ResNet / MobileNet), RetinaNet | Pytorch | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: / :heavy_check_mark: |
-| [`04/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Detection | ResNet + Single Object Detector, RetinaNet | Pytorch | :heavy_check_mark: | :x: | :heavy_check_mark: | :x: | :x: | :x: / :heavy_check_mark: |
+| [`04/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Detection | ResNet + Single Object Detector | Pytorch | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: | :x: / :heavy_check_mark: |
 | [`04/03_pretrained_opencv_caffe`](./04_basic_object_detection_pyimagesearch/03_pretrained_opencv_caffe/) | Detection | SSD + MobileNet | Caffe, OpenCV | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: / :heavy_check_mark: |
 | [`04/04_pretrained_opencv_caffe_realtime`](./04_basic_object_detection_pyimagesearch/04_pretrained_opencv_caffe_realtime/) | Detection | SSD + MobileNet | Caffe, OpenCV | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :heavy_check_mark: |
 | [`06/classifier_to_detector.ipynb`](./06_rcnn_tensorflow/classifier_to_detector.ipynb) | Detection | ResNet + Sliding Window + Pyramids | Tensorflow | :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: / :heavy_check_mark: | :x: | :x: |
 | [`06/training_rcnn_keras.ipynb`](./06_rcnn_tensorflow/training_rcnn_keras.ipynb) | Detection | R-CNN: MobileNet + Selective Search | Tensorflow | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  :heavy_check_mark: | :x: | :x: |
+| [`07/bounding_box_regression.ipynb`](./07_bbox_regression_tensorflow/bounding_box_regression.ipynb) | Detection | VGG16 + Single Object Detector | Tensorflow | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: | :x: |
+| [`07/multi_class_bbox_regression.ipynb`](./07_bbox_regression_tensorflow/multi_class_bbox_regression.ipynb) | Detection | VGG16 + Single Object Detector | Tensorflow | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: | :x: |
+
 
 - [`01_mask_r_cnn_fine_tuning`](01_mask_r_cnn_fine_tuning)
   - (Object) detection and segmentation of humans.
@@ -385,6 +388,25 @@ In particular, the U-Net architecture is summarized as follows:
       5. Apply Non-maximal Supression
       6. Return final object detection results
     - Note: we still don't train the model to predict bounding boxes (i.e., bounding box regression, end-to-end trainable), but we take the ROIs from selective search.
+
+  - [`07_bbox_regression_tensorflow`](./07_bbox_regression_tensorflow/)
+    - [`bounding_box_regression.ipynb`](./07_bbox_regression_tensorflow/bounding_box_regression.ipynb):
+      - Very simple blog post in which a 4D regression is added to a pre-trained network (VGG) to predict the bounding box of planes on images.
+      - The dataset is the [CALTECH-101](https://data.caltech.edu/records/mzrjq-6wc02), consisting of 800 airplane images with their bounding boxes (in a CSV).
+      - Limitations:
+        - Only one object class.
+        - Only one bounding box instance in the image.
+    - [`multi_class_bbox_regression.ipynb`](./07_bbox_regression_tensorflow/multi_class_bbox_regression.ipynb):
+      - Equivalent to [`04_basic_object_detection_pyimagesearch/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) but with Tensorflow/Keras.
+      - The pre-trained VGG16 network is used as backbone, with weights frozen.
+      - To the backbone, we attach two networks (*heads*) in parallel: one for regressing the bounding boxes, one for the classification labels.
+      - We assume we have only one object in an image; that's an important limitation, but the motivation of the network is educational; the model is defined and trained from-scratch using pre-trained weights of the backbone.
+      - Overall I thinks it's a nice example to see how to implement things end-to-end, but we need to be aware of the **limitations**:
+        - We have 3 custom objects, but:
+          - The annotations are provided already.
+          - The objects are quite similar to some COCO/ImageNet classes, nothing really weird: airplane, face, motorcycle.
+        - The data is passed as a huge array; that could be improved by openening images only when needed.
+        - Only one object is detected in an image.
 
 ## Some Statistics
 
