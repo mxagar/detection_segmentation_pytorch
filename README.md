@@ -403,9 +403,10 @@ In particular, the U-Net architecture is summarized as follows:
   - [ ] Complement tutorial with notes from these articles: 
     - [Fine Tuning YOLOv7 on Custom Dataset](https://learnopencv.com/fine-tuning-yolov7-on-custom-dataset/)
     - [YOLOv7 Object Detection Paper Explanation & Inference](https://learnopencv.com/yolov7-object-detection-paper-explanation-and-inference/)
-- [ ] SSD
-- [ ] RetinaNet
-- [ ] SAM
+- Other networks
+  - [ ] SSD
+  - [ ] RetinaNet
+  - [ ] SAM
 
 ## Interesting Links
 
