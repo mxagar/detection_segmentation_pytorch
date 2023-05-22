@@ -83,7 +83,7 @@ conda install pytorch=1.12 torchvision=0.13 torchtext=0.13 torchaudio pytorch-cu
 # But the following pip install command DID WORK
 python -m pip install torch==1.13+cu117 torchvision==0.14+cu117 torchaudio torchtext==0.14 --index-url https://download.pytorch.org/whl/cu117
 
-# Pytorch: Mac / Windows CPU (not tested)
+# Pytorch: Mac / Windows CPU
 python -m pip install torch torchvision torchaudio
 
 # Dump installed libraries in pip format
