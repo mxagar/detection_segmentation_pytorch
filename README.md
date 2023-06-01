@@ -32,12 +32,15 @@ As mentioned, this repository collects practical examples that target the last t
   - [How to Use This](#how-to-use-this)
     - [Dependencies](#dependencies)
   - [Object Detection: General Notes](#object-detection-general-notes)
-    - [Faster R-CNN](#faster-r-cnn)
+    - [Bounding Box Regression](#bounding-box-regression)
+    - [Sliding Windows](#sliding-windows)
+    - [R-CNN and Faster R-CNN](#r-cnn-and-faster-r-cnn)
     - [Intersection Over Union: IOU](#intersection-over-union-iou)
     - [YOLO: You Only Look Once](#yolo-you-only-look-once)
     - [Metrics](#metrics)
     - [Model Selection](#model-selection)
   - [Semantic Segmentation: General Notes](#semantic-segmentation-general-notes)
+  - [Labelling or Annotation Tools](#labelling-or-annotation-tools)
   - [List of Examples + Description Points](#list-of-examples--description-points)
   - [Some Statistics](#some-statistics)
   - [Improvements and Possible Extensions](#improvements-and-possible-extensions)
@@ -410,9 +413,10 @@ In particular, the U-Net architecture is summarized as follows:
 
 ## Some Statistics
 
-| Project | Operation | Size | Google Colab Pro T4 |	HP ProBook 650 G2, Intel i5-6300U @ 2.40GHz, 2 Cores | Lenovo ThinkPad P14s Gen 2, Intel i7-1165G7 @ 2.80GHz, 4 Cores - 16+32 GB | Lenovo TP P14s + NVIDIA T500 (built-in) - 4 GB | Lenovo TP P14s + NVIDIA GeForce RTX 3060 eGPU - 12 GB | MacBookPro17,1 - Apple M1, 8 Cores, 16 GB|
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [`04_basic_object_detection_pyimagesearch/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Training | 1,586,023 params | 139 sec | 16,530 sec | 3,821 sec | 561 sec | 131 sec |  |
+| Project | Operation | Size | Google Colab Pro T4 |	HP ProBook 650 G2, Intel i5-6300U @ 2.40GHz, 2 Cores | Lenovo ThinkPad P14s Gen 2, Intel i7-1165G7 @ 2.80GHz, 4 Cores - 16+32 GB | Lenovo TP P14s + NVIDIA T500 (built-in) - 4 GB | Lenovo TP P14s + NVIDIA GeForce RTX 3060 eGPU - 12 GB | Lenovo ThinkPad T15 Gen 2i, Intel i5-1145G7 @ 2.60GHz, 4 Cores - 16 GB | MacBookPro17,1 - Apple M1, 8 Cores, 16 GB|
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [`04_basic_object_detection_pyimagesearch/02_trained`](./04_basic_object_detection_pyimagesearch/02_trained/) | Training | 1,586,023 params | 139 sec | 16,530 sec | 3,821 sec | 561 sec | 131 sec | 5,037 sec |  |
+
 
 ## Improvements and Possible Extensions
 
