@@ -1,8 +1,8 @@
 # SAM: Segment Anything Model from Facebook/Meta Research
 
-[Segment Anything Model](https://github.com/facebookresearch/segment-anything)
+This mini-project analyzes the capabilities of SAM: [Segment Anything Model](https://github.com/facebookresearch/segment-anything).
 
-[SAM Paper](https://scontent-bcn1-1.xx.fbcdn.net/v/t39.2365-6/10000000_900554171201033_1602411987825904100_n.pdf?_nc_cat=100&ccb=1-7&_nc_sid=3c67a6&_nc_ohc=qTvYBYD2upoAX8voNfw&_nc_ht=scontent-bcn1-1.xx&oh=00_AfD_xIHUhJt9Lm70nBOP4mrLHRfEiJyb8v0uFYehP4IDlw&oe=6493ECE7)
+For more information: [SAM Paper](https://scontent-bcn1-1.xx.fbcdn.net/v/t39.2365-6/10000000_900554171201033_1602411987825904100_n.pdf?_nc_cat=100&ccb=1-7&_nc_sid=3c67a6&_nc_ohc=qTvYBYD2upoAX8voNfw&_nc_ht=scontent-bcn1-1.xx&oh=00_AfD_xIHUhJt9Lm70nBOP4mrLHRfEiJyb8v0uFYehP4IDlw&oe=6493ECE7)
 
 ## 1. Introduction and Setup
 
@@ -64,26 +64,3 @@ The folder [`notebooks`](./notebooks/) contains the official example notebooks f
 - [`automatic_mask_generator_example.ipynb`](./notebooks/automatic_mask_generator_example.ipynb)
 - [`onnx_model_example.ipynb`](./notebooks/onnx_model_example.ipynb)
 
-### Predictor Example
-
-TBD.
-
-[`predictor_example.ipynb`](./notebooks/predictor_example.ipynb)
-
-:construction:
-
-### Automatic Mask Generator Example
-
-TBD.
-
-[`automatic_mask_generator_example.ipynb`](./notebooks/automatic_mask_generator_example.ipynb)
-
-:construction:
-
-### ONNX Model Example
-
-TBD.
-
-[`onnx_model_example.ipynb`](./notebooks/onnx_model_example.ipynb)
-
-:construction:
