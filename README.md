@@ -442,6 +442,7 @@ Some **sources** I have used:
 - [Segmentation Models: Python Library](https://github.com/qubvel/segmentation_models.pytorch)
 - [PyImageSearch: U-Net: Training Image Segmentation Models in PyTorch](https://pyimagesearch.com/2021/11/08/u-net-training-image-segmentation-models-in-pytorch/)
 - [Image Segmentation DeepLabV3 on iOS - Pytorch Tutorial](https://pytorch.org/tutorials/beginner/deeplabv3_on_ios.html)
+- [Paper Walkthrough: U-Net](https://medium.com/towards-data-science/paper-walkthrough-u-net-98877a2cd33c)
 
 **My related notes**:
 
